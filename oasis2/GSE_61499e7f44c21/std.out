@@ -1,0 +1,216 @@
+Archive:  /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21.zip
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129042.fastq.gz.fasta.stats  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/run.log  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129043.fastq.gz.fasta.stats  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129036.fastq.gz.fasta.stats  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129043.fastq.gz.fasta  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129040.fastq.gz.fasta.stats  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129039.fastq.gz.fasta.stats  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129042.fastq.gz.fasta  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041.fastq.gz.fasta.stats  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129038.fastq.gz.fasta.stats  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129036.fastq.gz.fasta  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129039.fastq.gz.fasta  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/version.txt  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129040.fastq.gz.fasta  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129037.fastq.gz.fasta.stats  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041.fastq.gz.fasta  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129038.fastq.gz.fasta  
+  inflating: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129037.fastq.gz.fasta  
+Compressed files uploaded
+----------------- Starting -----------------
+Started Writing hashed fasta to unhashed fastq
+Running for file 	SRR13129041.fastq.gz.fasta
+Running for file 	SRR13129038.fastq.gz.fasta
+Running for file 	SRR13129039.fastq.gz.fasta
+Running for file 	SRR13129043.fastq.gz.fasta
+Running for file 	SRR13129036.fastq.gz.fasta
+Running for file 	SRR13129040.fastq.gz.fasta
+Running for file 	SRR13129042.fastq.gz.fasta
+Running for file 	SRR13129037.fastq.gz.fasta
+Finished Writing unhashed fastq!!! Success
+Took 	83284	 in milisecs, to write unhash fasta files in fastq
+Make report
+Make report
+Make report
+Make report
+Make report
+Make report
+Make report
+Make report
+Took 	132426	 in milisec, in fastqc
+Will delete all files in /web/de//share/de/GSE_61499e7f44c21
+1
+Submitted batch job 45804
+Submitted batch job 45805
+Submitted batch job 45806
+Submitted batch job 45807
+Submitted batch job 45808
+Submitted batch job 45809
+Submitted batch job 45810
+Submitted batch job 45811
+#Starting miRDeep2
+/home/vsac/pipelines2/programs/mirdeep2/new_miRDeep3.pl /share/de/GSE_61499e7f44c21/prediction//seqs_colapsed.fa /home/vsac/database2/mm10/bowtie/mm10.fa /share/de/GSE_61499e7f44c21/prediction//seqs.arf none /home/vsac/database2/mirbase/mature.fa none -t Mouse -a 106
+
+miRDeep2 started at 10:56:48
+
+
+mkdir /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48
+
+#testing input files
+started: 10:57:07
+sanity_check_mature_ref.pl /home/vsac/database2/mirbase/mature.fa
+
+
+ended: 10:57:08
+total:0h:0m:1s
+
+sanity_check_reads_ready_file.pl /share/de/GSE_61499e7f44c21/prediction//seqs_colapsed.fa
+
+started: 10:57:08
+
+ended: 10:58:19
+total:0h:1m:11s
+
+started: 10:58:19
+sanity_check_genome.pl /home/vsac/database2/mm10/bowtie/mm10.fa
+
+
+ended: 10:58:51
+total:0h:0m:32s
+
+started: 10:58:51
+sanity_check_mapping_file.pl /share/de/GSE_61499e7f44c21/prediction//seqs.arf
+
+
+ended: 10:58:56
+total:0h:0m:5s
+
+Pre-quantitation is skipped caused by missing file with known precursor miRNAs
+
+
+rna2dna.pl /home/vsac/database2/mirbase/mature.fa > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/mature
+
+
+ended: 10:58:56
+total:0h:0m:5s
+
+#parsing genome mappings
+parse_mappings.pl /share/de/GSE_61499e7f44c21/prediction//seqs.arf -a 0 -b 18 -c 25 -i 5 > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/seqs.arf_parsed.arf
+
+started: 10:58:56
+
+ended: 10:59:22
+total:0h:0m:26s
+
+#excising precursors
+started: 10:59:22
+excise_precursors.pl /home/vsac/database2/mm10/bowtie/mm10.fa /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/seqs.arf_parsed.arf /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors.coords -a 106 > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors.fa
+
+
+ended: 11:0:11
+total:0h:0m:49s
+
+#preparing signature
+new_prepare_signature.pl /share/de/GSE_61499e7f44c21/prediction//seqs_colapsed.fa /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors.fa 1 -o /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/signature.arf 2>>/share/de/GSE_61499e7f44c21/prediction/error_21_09_2021_t_10_56_48.log
+
+started: 11:0:11
+
+ended: 11:0:36
+total:0h:0m:25s
+
+#folding precursors
+RNAfold < /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors.fa -noPS > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors.str
+
+started: 11:0:36
+
+ended: 11:0:39
+total:0h:0m:3s
+
+#computing randfold p-values
+select_for_randfold.pl /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/signature.arf /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors.str > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors_for_randfold.ids
+
+started: 11:0:39
+
+ended: 11:0:40
+total:0h:0m:1s
+
+started: 11:0:40
+fastaselect.pl /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors.fa /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors_for_randfold.ids > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors_for_randfold.fa
+
+
+ended: 11:0:40
+total:0h:0m:0s
+
+started: 11:0:40
+randfold -s /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors_for_randfold.fa 99 > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors_for_randfold.rand
+
+
+ended: 11:1:50
+total:0h:1m:10s
+
+#running miRDeep core algorithm
+started: 11:1:50
+miRDeep2_core_algorithm.pl /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/signature.arf /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors.str -s /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/mature -v -50 -l 40 -y /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors_for_randfold.rand > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/output.mrd
+
+ended: 11:1:52
+total:0h:0m:2s
+
+#running permuted controls
+started: 11:1:52
+echo 'miRDeep2_core_algorithm.pl /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/signature.arf /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors.str -s /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/mature -v -50 -y /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors_for_randfold.rand > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/output.mrd' > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/command_line
+
+perform_controls.pl /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/command_line /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors.str 100 -a > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/output_permuted.mrd 2>>/share/de/GSE_61499e7f44c21/prediction/error_21_09_2021_t_10_56_48.log
+
+
+ended: 11:4:49
+total:0h:2m:57s
+
+#doing survey of accuracy
+survey.pl /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/output.mrd -a /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/output_permuted.mrd -d 106 > /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/survey.csv
+
+started: 11:4:49
+
+ended: 11:4:50
+total:0h:0m:1s
+
+#producing graphic results
+started: 11:4:50
+new_make_html3.pl -f /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/output.mrd -p /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/tmp/precursors.coords -v 0 -s /share/de/GSE_61499e7f44c21/prediction/mirdeep_runs/run_21_09_2021_t_10_56_48/survey.csv -c -e -r /home/vsac/pipelines2/programs/mirdeep2/Rfam_for_miRDeep.fa -y 21_09_2021_t_10_56_48 -o  -a -t Mouse -V 2.0.0.5
+
+parsing input file finished
+checking Rfam for hits to precursors
+Build bowtie index of Rfam entries
+
+Mapping mature,star and loop sequences against index
+# reads processed: 179
+# reads with at least one reported alignment: 20 (11.17%)
+# reads that failed to align: 159 (88.83%)
+Reported 154 alignments to 1 output stream(s)
+creating PDF files
+creating pdf for chr7_329 finished
+creating pdf for chr13_91 finished
+creating pdf for chr4_234 finished
+creating pdf for chr18_169 finished
+creating pdf for chr13_93 finished
+creating pdf for chr6_288 finished
+creating pdf for chr6_289 finished
+creating pdf for chr9_356 finished
+creating pdf for chr6_287 finished
+creating pdf for chr2_189 finished
+creating pdf for chr11_54 finished
+creating pdf for chr10_31 finished
+creating pdf for chr18_163 finished
+creating pdf for chr1_15 finished
+
+ended: 11:5:06
+total:0h:0m:16s
+
+
+
+miRDeep runtime: 
+
+started: 10:56:48
+ended: 11:5:06
+total:0h:8m:18s
+

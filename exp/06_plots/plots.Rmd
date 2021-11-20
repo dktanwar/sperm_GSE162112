@@ -1,0 +1,193 @@
+---
+title: "Plots"
+author: "Deepak Tanwar"
+date: "28/09/2021"
+output: html_document
+---
+
+
+# Libraries
+```{r, warning=F, message=F}
+devtools::load_all("../../../../shortRNA/")
+library(rtracklayer)
+```
+
+
+# Data
+```{r}
+bamfile <- "../../shortRNA/03_tse/align/unique.bam"
+# BamFile
+library(GenomicAlignments)
+param = ScanBamParam(what = c("cigar", "pos", "seq"))
+ga <- readGAlignments(bamfile, param = param)
+names(ga) <- ga@elementMetadata$seq
+seqlevelsStyle(ga) <- "Ensembl"
+
+
+# Featurtes GRanges
+features <- import("data/features.gtf")
+
+# miRNAs to plot as GRanges
+grl <- readRDS("data/miRNAsToTest.rds")
+
+# Counts matrix
+counts <- data.frame(log1p(readRDS("../../shortRNA/03_tse/fastq/counts.rds")))
+```
+
+
+# Making tracks
+```{r}
+tracks <- parallel::mclapply(grl, function(x) {
+  makeTracks(
+    gr = x, counts = counts,
+    features = features, bamFile = ga,
+    plotCoverage = FALSE
+  )
+}, mc.preschedule = FALSE, mc.cores = length(grl))
+```
+
+# Plots
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[1], "\n"))
+```
+
+```{r, fig.height=9, fig.width=7, fig.align='center'}
+tracks[[1]][[1]]
+```
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[2], "\n"))
+```
+
+```{r, fig.height=9, fig.width=14, fig.align='center'}
+ggbio::cbind(tracks[[2]][[1]], tracks[[2]][[2]])
+```
+
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[3], "\n"))
+```
+
+```{r, fig.height=9, fig.width=7, fig.align='center'}
+tracks[[3]][[1]]
+```
+
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[4], "\n"))
+```
+
+```{r, fig.height=9, fig.width=7, fig.align='center'}
+tracks[[4]][[1]]
+```
+
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[5], "\n"))
+```
+
+```{r, fig.height=9, fig.width=7, fig.align='center'}
+tracks[[5]][[1]]
+```
+
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[6], "\n"))
+```
+
+```{r, fig.height=9, fig.width=7, fig.align='center'}
+tracks[[6]][[1]]
+```
+
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[7], "\n"))
+```
+
+```{r, fig.height=9, fig.width=7, fig.align='center'}
+tracks[[7]][[1]]
+```
+
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[8], "\n"))
+```
+
+```{r, fig.height=9, fig.width=7, fig.align='center'}
+tracks[[8]][[1]]
+```
+
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[9], "\n"))
+```
+
+```{r, fig.height=9, fig.width=7, fig.align='center'}
+tracks[[9]][[1]]
+```
+
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[10], "\n"))
+```
+
+```{r, fig.height=9, fig.width=7, fig.align='center'}
+tracks[[10]][[1]]
+```
+
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[11], "\n"))
+```
+
+```{r, fig.height=9, fig.width=7, fig.align='center'}
+tracks[[11]][[1]]
+```
+
+
+```{r, results='asis'}
+cat(paste("##", names(tracks)[12], "\n"))
+```
+
+```{r, fig.height=9, fig.width=7, fig.align='center'}
+tracks[[12]][[1]]
+```
+
+
+# Test for missing miRNAs
+```{r}
+# Featurtes GRanges
+features <- readRDS("../../shortRNA/genome/features.rds")
+colnames(features@elementMetadata) <- gsub(
+  pattern = "tx",
+  replacement = "transcript",
+  x = colnames(features@elementMetadata)
+)
+colnames(features@elementMetadata) <- gsub(
+  pattern = "biotype",
+  replacement = "type",
+  x = colnames(features@elementMetadata)
+)
+
+
+# BamFile
+library(GenomicAlignments)
+param = ScanBamParam(what = c("cigar", "pos", "seq"))
+ga <- readGAlignments(bamfile, param = param)
+names(ga) <- ga@elementMetadata$seq
+seqlevelsStyle(ga) <- "Ensembl"
+
+gr <- features[features$transcript_id %in% names(miss_231)]
+
+# grl <- subsetByOverlaps(gr, features)
+# grl <- subsetByOverlaps(features, grl)
+grl <- split(gr, gr$symbol)
+grl <- lapply(grl, range)
+grl <- as(grl, "GRangesList")
+
+grga <- parallel::mclapply(grl, function(x) subsetByOverlaps(ga, x), mc.preschedule = F, mc.cores = 50)
+grga <- grga[lengths(grga) > 0]
+
+makeTracks(gr = grl[[4]], counts = counts, features = features, bamFile = ga)
+```

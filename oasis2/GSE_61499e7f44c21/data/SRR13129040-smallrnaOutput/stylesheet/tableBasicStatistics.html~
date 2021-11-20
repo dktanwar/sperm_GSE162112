@@ -1,0 +1,44 @@
+<link rel="stylesheet" type="text/css"  href="tables.css" />
+<link rel="stylesheet" type="text/css"  href="table.css" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0" id="basics">
+  <tr class="titles">
+    <td class="first">Measure</td>
+    <td class="second">Value</td>
+  </tr>
+  <tr class="two">
+    <td class="first">Sample ID</td>
+    <td class="second">ID_SAMPLE</td>
+  </tr>
+  <tr class="one">
+    <td class="first">Adapter sequence</td>
+    <td class="second">ADAPTOR</td>
+  </tr>
+  <tr class="two">
+    <td class="first">Initial number of reads</td>
+    <td class="second">ININR</td>
+  </tr>
+  <tr class="one">
+    <td class="first">Number of trimmed reads</td>
+    <td class="second">NTR(PERCTRIM)</td>
+  </tr>
+  <tr class="two">
+    <td class="first">Number of reads too short/long</td>
+    <td class="second">NRTS/NRTL</td>
+  </tr>
+  <tr class="one">
+    <td class="first">Average read length</td>
+    <td class="second">AVGRL</td>
+  </tr>
+  <tr class="two">
+    <td class="first">Number of mapped reads</td>
+    <td class="second">NMR</td>
+  </tr>
+  <tr class="one">
+    <td class="first">Number of uniquely mapped reads</td>
+    <td class="second">NUMR</td>
+  </tr>
+  <tr class="two">
+    <td class="first">Counts</td>
+    <td class="counts"><a href="../counts/ID_SAMPLE_mirnaCounts.txt" target="_blank">miRNA</a><a href="../counts/ID_SAMPLE_piwirnaCounts.txt" target="_blank">piwiRNA</a><a href="../counts/ID_SAMPLE_snornaCounts.txt" target="_blank">snoRNA</a><a href="../counts/ID_SAMPLE_snrnaCounts.txt" target="_blank">snRNA</a><a href="../counts/ID_SAMPLE_rrnaCounts.txt" target="_blank">rRNA</a></td>
+  </tr>
+</table>

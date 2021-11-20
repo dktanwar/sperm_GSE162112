@@ -1,0 +1,16 @@
+File Name: Mus_musculus_rm_refseq.out.gz
+Organism Name: Mus_musculus
+Database: NCBI refseq
+URL: ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39/GCF_000001635.27_GRCm39_rm.out.gz
+Download_Date: Tue Oct  5 12:32:22 2021
+refseq_category: reference genome
+assembly_accession: GCF_000001635.27
+bioproject: PRJNA169
+biosample: NA
+taxid: 10090
+infraspecific_name: NA
+version_status: latest
+release_type: Major
+genome_rep: Full
+seq_rel_date: 2020-06-24
+submitter: Genome Reference Consortium

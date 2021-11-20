@@ -1,0 +1,2 @@
+file_name	organism	url	database	path	refseq_category	assembly_accession	bioproject	biosample	taxid	infraspecific_name	version_status	release_type	genome_rep	seq_rel_date	submitter
+Mus_musculus_genomic_refseq.fna.gz	Mus_musculus	ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39/GCF_000001635.27_GRCm39_rm.out.gz	refseq	./fasta//repeatMasker/	reference genome	GCF_000001635.27	PRJNA169	NA	10090	NA	latest	Major	Full	2020-06-24	Genome Reference Consortium

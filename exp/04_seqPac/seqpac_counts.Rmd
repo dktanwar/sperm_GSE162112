@@ -1,0 +1,59 @@
+---
+title: "seqpac"
+author: "Deepak Tanwar"
+date: "28/09/2021"
+output: html_document
+---
+
+
+```{r}
+pac <- readRDS("../../seqPAC/pac_final.rds")
+
+mir <- pac@Anno[pac@Anno$miRNA_genome == "mis0",]
+
+pac_mir <- pac
+pac_mir@Counts <- pac_mir@Counts[rownames(mir),]
+pac_mir@Anno <- pac_mir@Anno[rownames(mir), c(1,8)]
+
+# seq <- rownames(pac_mir@Anno)[pac_mir@Anno$Size > 18 & pac_mir@Anno$Size < 25]
+seq <- rownames(pac_mir@Anno)
+
+pac_mir@Anno <- pac_mir@Anno[seq,]
+pac_mir@Counts <- pac_mir@Counts[seq,]
+
+df <- cbind(pac_mir@Anno[,2, drop = FALSE], pac_mir@Counts)
+
+an <- df$mis0_miRNA_genome
+
+an <- gsub(pattern = ":antisense|:sense", replacement = "", x = an)
+
+df$mis0_miRNA_genome <- an
+
+### aggregate based on transcript id, type and valid?
+
+ag <- plgINS::plag(x = df[,-c(1)], by = df$mis0_miRNA_genome)
+
+df1 <- ag
+df1$tr_id <- rownames(df1)
+
+tr <- strsplit(df1$tr_id, "\\|")
+tr_sp <- data.frame(sapply(1:max(lengths(tr)), function(x) lapply(tr, function(y) y[x])))
+
+test <- data.frame(sapply(1:max(lengths(tr)), function(x) !is.na(tr_sp[,x])))
+
+df2 <- NULL
+i <- 1
+# for(i in 1:ncol(test)){
+  tmp <- df1[test[,i],]
+  tmp2 <- as.character(tr_sp[,i])[!is.na(as.character(tr_sp[,i]))]
+  tmp$tr_id2 <- tmp2
+  df2 <- rbind(df2, tmp)
+# }
+
+library(SummarizedExperiment)
+
+se <- SummarizedExperiment(assays = list(counts = df2))
+
+saveRDS(se, "seqpac.rds")
+```
+

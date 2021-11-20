@@ -1,0 +1,445 @@
+---
+title: "Sperm short RNA-Seq data analysis"
+output:
+  html_document:
+    theme: cerulean
+    df_print: paged
+    toc: true
+    toc_float: true
+editor_options:
+  chunk_output_type: console
+---
+
+# Library
+```{r sperm-1, message=FALSE, warning=FALSE}
+library(seqpac)
+library(ShortRead)
+```
+
+# Trimming
+```{r sperm-2, eval=FALSE}
+path_to_fastq <- "../data/rmUMI/"
+
+
+trim <- make_trim(
+  input = path_to_fastq, output = ".", threads = 16,
+  adapt_3 = "TGGAATTCTCGGGTGCCAAGG"
+)
+```
+
+```
+Checking trimming memory usage with benchmarkme...
+--- Input will use >80% of availble cores(16/16).
+--- Heavy trimming processes needs approx. x10 the fastq file size available in RAM memory.
+--- Worst scenario maximum system burden is estimated to 19.9 GB of approx. 122 GB RAM available.
+--- Trimming check passed.
+
+Now entering the parallel trimming loop (R may stop respond) ...
+(progress may be followed in: .)
+```
+
+
+# Counts
+```{r, eval=FALSE}
+count_list <- make_counts(input = "./", trimming = NULL, threads = 16)
+```
+
+```
+Started at  2021-09-22 09:56:51 
+
+Input type was set to fastq.
+The following fastq files were found in the path:
+[1] ".//SRR13129036.trim.fastq.gz" ".//SRR13129037.trim.fastq.gz" ".//SRR13129038.trim.fastq.gz" ".//SRR13129039.trim.fastq.gz"
+[5] ".//SRR13129040.trim.fastq.gz" ".//SRR13129041.trim.fastq.gz" ".//SRR13129042.trim.fastq.gz" ".//SRR13129043.trim.fastq.gz"
+
+
+Identifying unique sequences in trimmed fastq files ...
+Compiling unique sequences ...
+Making a count table with sequences appearing in at least 2 independent samples ...
+Finalizing at  2021-09-22 10:00:12 
+```
+
+# PAC
+```{r}
+pheno <- data.frame(Sample_ID = colnames(count_list$counts))
+
+pheno <- make_pheno(
+  pheno = pheno,
+  progress_report = count_list$progress_report,
+  counts = count_list$counts
+)
+
+## Generate PAC object
+pac_master <- make_PAC(pheno = pheno, anno = NULL, counts = count_list$counts)
+saveRDS(object = pac_master, file = "pac.rds")
+
+pac_master <- readRDS("pac.rds")
+```
+
+
+# Annotation
+
+## Genome
+```{r}
+ref_path <- "./fasta"
+if (!dir.exists(ref_path)) dir.create(ref_path)
+
+## BSgenome
+dest_path <- file.path(ref_path, "/uscs_genome/mm10_ucsc.fa")
+BSgenome::available.genomes()
+
+mm10 <- BSgenome::getBSgenome("BSgenome.Mmusculus.UCSC.mm10", masked = FALSE)
+if (!file.exists(dirname(dest_path))) {
+  dir.create(dirname(dest_path))
+}
+Biostrings::writeXStringSet(getSeq(mm10), filepath = dest_path, format = "fasta")
+
+## biomartr
+dest_path <- file.path(ref_path, "/biomartr_genome/") # Only dir
+data.frame(biomartr::is.genome.available(db = "ensembl", organism = "Mus musculus", details = TRUE))
+# file_path <- biomartr::getGenome(db="ensembl", organism = "Mus musculus", path=dest_path, gunzip=TRUE, release=101) # Bowtie don't take gzip
+
+# download.file(url = "ftp://ftp.ensembl.org/pub/release-102/fasta/mus_musculus/dna/Musmusculus.GRCm38.dna.toplevel.fa.gz", destfile = "fasta/biomartr_genome/Musmusculus.GRCm38.dna.toplevel.fa.gz")
+
+genome <- Biostrings::readDNAStringSet(filepath = list.files("./fasta/uscs_genome/", pattern = ".fa$", full.names = TRUE), format = "fasta")
+```
+
+
+## ncRNA
+```{r}
+## biomartr ncRNA
+dest_path <- file.path(ref_path, "/ensembl_ncRNA/") # Only dir
+# ncrna_path <- biomartr::getRNA(db="ensembl", organism = "Mus musculus", path=dest_path, release=104)
+# R.utils::gunzip(ncrna_path, destname=paste0(dest_path, "/ncrna.fa"), remove=TRUE, skip=TRUE) # Unzip to prepare for bowtie
+ncrna <- biomartr::read_rna(file = "fasta/ensembl_ncRNA/Mus_musculus.GRCm38.ncrna.fa")
+```
+
+
+## tRNA
+```{r}
+## Download GtRNAdb
+dest_path <- file.path(ref_path, "/GtRNAdb/trna.fa")
+if (!file.exists(dirname(dest_path))) {
+  dir.create(dirname(dest_path))
+}
+download.file(
+  url = "http://gtrnadb.ucsc.edu/genomes/eukaryota/Mmusc10/mm10-tRNAs.fa",
+  destfile = dest_path
+)
+trna <- Biostrings::readDNAStringSet(filepath = dest_path, format = "fasta")
+```
+
+
+## miRNA
+```{r}
+### ---------------------------------------------------------------------
+## Download mirbase
+# 1. Download pre-miRNA data
+# 2. Extract compressed fasta
+# 3. Read as RNA
+# 4. Extract species D. melanogaster
+# 4. Convert to DNA
+# 5. Overwrite RNA fasta with DNA fasta
+# (sequenced reads are always in DNA)
+# (we use pre-miRNA to catch all miRNA)
+dest_path <- file.path(ref_path, "/mirbase/mirna.fa.gz")
+if (!file.exists(dirname(dest_path))) {
+  dir.create(dirname(dest_path))
+}
+download.file(
+  url = "ftp://mirbase.org/pub/mirbase/CURRENT/hairpin.fa.gz",
+  destfile = dest_path
+)
+R.utils::gunzip(dest_path, remove = TRUE, skip = TRUE)
+mirna <- Biostrings::readRNAStringSet(
+  filepath = gsub(".gz", "", dest_path),
+  format = "fasta"
+)
+mirna <- mirna[grepl("Mus musculus", names(mirna)), ]
+mirna <- Biostrings::DNAStringSet(mirna)
+Biostrings::writeXStringSet(mirna,
+  filepath = gsub(".gz", "", dest_path),
+  format = "fasta"
+)
+
+
+### ---------------------------------------------------------------------
+## Similar but MirGeneDB
+# Since mirBase is rarely updated you might want to use MirGeneDB
+dest_path <- file.path(ref_path, "/mirgenedb/mirna_pre_mirbase.fa.gz")
+if (!file.exists(dirname(dest_path))) {
+  dir.create(dirname(dest_path))
+}
+download.file(
+  url = "https://www.mirgenedb.org/static/data/mmu/mmu-pre.fas",
+  destfile = dest_path
+)
+mirna2 <- Biostrings::readRNAStringSet(filepath = dest_path, format = "fasta")
+mirna2 <- Biostrings::DNAStringSet(mirna2)
+Biostrings::writeXStringSet(mirna2, filepath = dest_path, format = "fasta")
+
+## There are some overlaps
+table(paste0(mirna2) %in% paste0(mirna)) # Not much perfect overlap
+table(grepl(paste(paste0(mirna2), collapse = "|"), paste0(mirna))) # Non-perfect overlaps better
+```
+
+
+## Fixing tRNA names
+```{r}
+## Fixing the trna names
+file_path <- paste0(ref_path, "/GtRNAdb/trna.fa")
+trna <- Biostrings::readDNAStringSet(filepath = file_path, format = "fasta")
+names(trna) <- gsub("Mus_musculus_", "", names(trna)) # Remove species
+mat <- do.call("rbind", strsplit(names(trna), " ")) # Make a name matrix
+names(trna) <- paste(mat[, 1], mat[, ncol(mat) - 1], mat[, ncol(mat)], sep = "_") # Save the important as one single string
+Biostrings::writeXStringSet(trna, filepath = file_path, format = "fasta")
+```
+
+## Fixing ncRNA names
+```{r}
+## Rearrange the ncRNA fasta names
+file_path <- paste0(ref_path, "/ensembl_ncRNA/Mus_musculus.GRCm38.ncrna.fa")
+ncrna <- Biostrings::readDNAStringSet(filepath = file_path, format = "fasta")
+mat <- do.call("rbind", strsplit(names(ncrna), " ")) # Make a matrix of the names
+mat <- mat[, 1:7] # Pick only the 1st columns
+# (some species contains multiple columns with same input)
+col_bio <- grepl("gene_biotype:", mat[1, ]) # Locate gene biotype column
+col_coord <- grepl("chromosome:|scaffold:", mat[1, ]) # Locate coordinate column
+identical(nrow(mat), sum(grepl("gene_biotype:", mat[, col_bio]))) # Did you catch all?
+identical(nrow(mat), sum(grepl("chromosome:|scaffold:", mat[, col_coord])))
+
+new_names <- paste(mat[, ncol(mat)], mat[, 1], mat[, col_bio], mat[, col_coord], sep = "_") # Pick columns of your choice
+names(ncrna) <- gsub("gene_symbol:|chromosome:BDGP6.28:|gene_biotype:", "", new_names) # Clean up
+Biostrings::writeXStringSet(ncrna, filepath = file_path, format = "fasta")
+```
+
+
+```{r}
+### ---------------------------------------------------------------------
+## Locate, fix names and add mito tRNA
+trna_logi <- grepl("tRNA_mitochondrion_genome", names(ncrna)) # Locate mito tRNA
+table(trna_logi) # Should be 22
+mt_trna_ensembl <- ncrna[trna_logi, ]
+mt_trna <- gsub("mt:tRNA:", "MT-tRNA-", names(mt_trna_ensembl))
+mt_trna <- gsub(":-1$", "_(-)", mt_trna)
+mt_trna <- gsub(":1$", "_(+)", mt_trna)
+mt_trna <- gsub("_FBtr", "-FBtr", mt_trna)
+mt_trna <- gsub(":", "-", mt_trna)
+mt_trna <- gsub("_tRNA_mitochondrion_genome-", "_chrMT:", mt_trna)
+
+names(mt_trna_ensembl) <- mt_trna
+trna <- c(trna, mt_trna_ensembl)
+Biostrings::writeXStringSet(trna,
+  filepath = paste0(ref_path, "/GtRNAdb/trna.fa"),
+  format = "fasta"
+)
+```
+
+
+# Indexes
+```{r}
+Rbowtie::bowtie_build("fasta/uscs_genome/mm10_ucsc.fa",
+  outdir = "fasta/uscs_genome/",
+  force = TRUE
+)
+
+Rbowtie::bowtie_build("fasta//GtRNAdb/trna.fa",
+  outdir = "fasta//GtRNAdb/",
+  prefix = "trna", force = TRUE
+)
+
+Rbowtie::bowtie_build("fasta/ensembl_ncRNA/Mus_musculus.GRCm38.ncrna.fa",
+  outdir = "fasta/ensembl_ncRNA/",
+  prefix = "ncrna", force = TRUE
+)
+
+Rbowtie::bowtie_build("fasta//mirbase/mirna.fa",
+  outdir = "fasta/mirbase/",
+  prefix = "mirna", force = TRUE
+)
+```
+
+# GTF feature coordinates
+```{r}
+### ---------------------------------------------------------------------
+## Get gene gtf using biomartr
+# dest_path <- file.path(ref_path, "/gtf/") # Only dir
+# gtf_path <- biomartr::getGTF(
+#   db = "ensembl", organism = "Mus musculus",
+#   path = dest_path
+# )
+gtf_ens <- tibble::as_tibble(rtracklayer::readGFF("fasta/gtf/Mus_musculus.GRCm38.102.chr_patch_hapl_scaff.gtf.gz"))
+
+### ---------------------------------------------------------------------
+## Get repeatMasker gtf using biomartr (doesn't work for all species)
+# dest_path <- file.path(ref_path, "/repeatMasker/") # Only dir
+# rm_path <- biomartr::getRepeatMasker(
+#   db = "refseq", organism = "Mus musculus",
+#   path = dest_path
+# )
+gtf_rm <- tibble::as_tibble(rtracklayer::readGFF("fasta/repeatMasker/repeatMasker.gtf"))
+
+### ---------------------------------------------------------------------
+## Get repeatMasker table and manually turn it into gtf using rtracklayer
+# Table names can be found at:
+# https://genome.ucsc.edu/cgi-bin/hgTables
+dest_path <- file.path(ref_path, "/repeatMasker/repeatMasker.gtf") # Full file path
+if (!file.exists(dirname(dest_path))) {
+  dir.create(dirname(dest_path))
+}
+session <- rtracklayer::browserSession("UCSC")
+rtracklayer::genome(session) <- "mm10"
+rm_tab <- tibble::as_tibble(rtracklayer::getTable(rtracklayer::ucscTableQuery(
+  session,
+  track = "RepeatMasker", table = "rmsk"
+)))
+gr <- GenomicRanges::GRanges(seqnames = rm_tab$genoName, IRanges::IRanges(
+  rm_tab$genoStart, rm_tab$genoEnd
+), strand = rm_tab$strand)
+GenomicRanges::mcols(gr)$type <- "repeat"
+GenomicRanges::mcols(gr)$source <- "repeatMasker_mm10"
+GenomicRanges::mcols(gr)$repName <- rm_tab$repName
+GenomicRanges::mcols(gr)$repClass <- rm_tab$repClass
+GenomicRanges::mcols(gr)$repFamily <- rm_tab$repFamily
+rtracklayer::export(gr, dest_path, format = "gtf")
+```
+
+
+# alignment
+```{r}
+seqpac::map_reanno(
+  PAC = pac_master, type = "internal", import = "biotype",
+  output_path = "fasta/alignment", threads = 16,
+  ref_paths = list(
+    tRNA = "fasta/GtRNAdb/trna",
+    miRNA = "fasta/mirbase/mirna",
+    ncRNA = "fasta/ensembl_ncRNA/ncrna",
+    ucsc = "fasta/uscs_genome/index"
+  )
+)
+```
+
+```
+R internal mapping using the Rbowtie package was specified.
+This package uses bowtie version 1.2.3.
+If you need a newer version, please install Bowtie manually
+outside R and then use option type='external'.
+
+
+******************************************************
+|--- Mismatch 0 started at 10:24:51 AM
+|--- Bowtie mapping:
+   |---> tRNA...
+
+# reads processed: 1928620
+# reads with at least one reported alignment: 2978 (0.15%)
+# reads that failed to align: 1925642 (99.85%)
+Reported 132620 alignments
+
+   |---> miRNA...
+
+# reads processed: 1928620
+# reads with at least one reported alignment: 7281 (0.38%)
+# reads that failed to align: 1921339 (99.62%)
+Reported 377691 alignments
+
+   |---> ncRNA...
+
+# reads processed: 1928620
+# reads with at least one reported alignment: 100127 (5.19%)
+# reads that failed to align: 1828493 (94.81%)
+Reported 71387619 alignments
+
+   |---> ucsc...
+
+# reads processed: 1812359                                                                                                                                                                                                           [41/1843]
+# reads with at least one reported alignment: 347241 (19.16%)
+# reads that failed to align: 1465118 (80.84%)
+Reported 141066411 alignments
+
+|--- Found 4 bowtie file(s) with hits and 0 without.
+  |--- Import and reorganize miRNA.out
+    |---> Generating full report (please wait)...
+    |---> miRNA done
+  |--- Import and reorganize ncRNA.out
+    |---> Generating full report (please wait)...
+    |---> ncRNA done
+  |--- Import and reorganize tRNA.out
+    |---> Generating full report (please wait)...
+    |---> tRNA done
+  |--- Import and reorganize ucsc.outError in import_reanno(bowtie_path = output_path, threads = threads, coord = import$coord,  :
+  length(n_mis) == "1" is not TRUE
+In addition: Warning messages:
+1: In system(call, intern = TRUE) :
+  running command ''/home/ubuntu/R/x86_64-pc-linux-gnu-library/4.0/Rbowtie/bowtie' -a -f -v 0 -p 16 'fasta/uscs_genome/index' 'fasta/alignment/anno_mis0.fa'  'fasta/alignment/ucsc.out'' had status 137
+2: In data.table::fread(files[k], header = FALSE, select = c(3, 2,  :
+  Discarded single-line footer: <<GCCGAGTGTA    -       chr2    150>>
+3: In if (is.na(n_mis)) { :
+  the condition has length > 1 and only the first element will be used   
+```
+
+
+```{r}
+# Explore reference search terms
+ref_path <- "./fasta"
+
+Ensembl_ncrna <- names(Biostrings::readDNAStringSet("fasta/ensembl_ncRNA/Mus_musculus.GRCm38.ncrna.fa"))
+Ensembl_ncrna <- do.call("rbind", strsplit(Ensembl_ncrna, " "))[,1]        # Extract up to 1st white space
+Ensembl_ncrna <- do.call("rbind", strsplit(Ensembl_ncrna, "\\:"))[,1]      # Expressions up to ":"
+table(Ensembl_ncrna)           
+
+trna <- names(Biostrings::readDNAStringSet("fasta/GtRNAdb/trna.fa"))
+table(do.call("rbind", strsplit(trna, "\\_"))[,1])  # Divide
+table(do.call("rbind", strsplit(trna, "\\-"))[,1])  # Further division
+
+mirna <- names(Biostrings::readDNAStringSet("fasta/mirbase/mirna.fa"))
+mirna <- do.call("rbind", strsplit(mirna, " "))[,1] # Extract up to 1st white space
+table(do.call("rbind", strsplit(mirna, "\\-"))[,1]) # Divide
+```
+
+
+###############################################################################################################
+###############################################################################################################
+
+# miRNAs
+
+```{r}
+library(seqpac)
+
+pac_master <- readRDS("pac.rds")
+
+
+## Generate a reanno object with make_reanno
+reanno_genome <- make_reanno("fasta/alignment/", PAC = pac_master, mis_fasta_check = TRUE)
+
+anno_genome <- add_reanno(reanno_genome, type="genome", genome_max=10, mismatches=0)
+
+
+pac <- add_reanno(reanno_genome, type="genome", genome_max=10, mismatches=0, merge_pac=pac_master)
+
+
+bio_search_1 <- list(miRNA="mmu-")
+
+
+## Merge with PAC object
+pac <- add_reanno(reanno_genome, bio_search=bio_search_1, type="biotype", 
+                         bio_perfect=FALSE, mismatches = 0, 
+                         merge_pac=anno_genome)
+
+
+saveRDS(pac, "pac_final.rds")
+
+pac <- readRDS("pac_final.rds")
+
+mir <- pac@Anno[pac@Anno$miRNA_genome == "mis0",]
+
+pac_mir <- pac
+pac_mir@Counts <- pac_mir@Counts[rownames(mir),]
+pac_mir@Anno <- pac_mir@Anno[rownames(mir), c(2,8)]
+
+df <- cbind(pac_mir@Anno[,2, drop = FALSE], pac_mir@Counts)
+
+an <- df$mis0_miRNA_genome
+
+an <- gsub(pattern = ":antisense|:sense", replacement = "", x = an)
+```

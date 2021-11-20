@@ -1,0 +1,43 @@
+
+SPORTS version: 1.1.1
+
+Citation: Junchao Shi, Eun-A Ko, Kenton M. Sanders, Qi Chen, Tong Zhou. “SPORTS1.0: a tool for annotating and profiling non-coding RNAs optimized for rRNA-and tRNA-derived small RNAs.” Genomics, Proteomics & Bioinformatics (2018) doi.org/10.1016/j.gpb.2018.04.004.
+
+Input file address: /mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq
+output file address: .
+Reference genome address: /mnt/IM/reference/genome/gencode/bowtie/mm10
+Reference miRNA database address: ../annotation/Mus_musculus/miRBase/21/miRBase_21-mmu
+Reference tRNA database address: ../annotation/Mus_musculus/GtRNAdb/mm10/mm10-tRNAs
+Reference rRNA database address: ../annotation/Mus_musculus/rRNAdb/mouse_rRNA
+Reference piRNA database address: ../annotation/Mus_musculus/piRBase/piR_mouse
+Reference ensembl ncRNA database address: ../annotation/Mus_musculus/Ensembl/release-89/Mus_musculus.GRCm38.ncrna
+Reference rfam ncRNA database address: ../annotation/Mus_musculus/Rfam/12.3/Rfam-12.3-mouse
+Trimming 5' adapter: GTTCAGAGTTCTACAGTCCGACGATC
+Trimming 3' adapter: TGGAATTCTCGGGTGCCAAGG
+Filtering min lenth: 15
+Filtering max lenth: 45
+Mapping mismatch tolerance: 1
+
+
+Searching input files...
+
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129036.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129043.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129040.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129041.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129042.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129037.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129038.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129039.fastq
+
+Processing input files...
+
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129036.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129037.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129038.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129039.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129040.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129041.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129042.fastq
+/mnt/IM/projects/software/shortRNA_reports/sperm_GSE162112/data/rmUMI_fq/SRR13129043.fastq
+Done!

@@ -1,0 +1,56 @@
+---
+title: "shortRNA"
+author: "Deepak Tanwar"
+date: "28/09/2021"
+output: html_document
+---
+
+
+```{r}
+library(TreeSummarizedExperiment)
+tse <- readRDS("../../shortRNA/03_tse/tse.rds")
+
+rd <- rowData(tse)
+
+anno <- data.frame(
+  seq = rownames(rd),
+  transcript_id = as.character(paste(rd$transcript_id, collapse = "|")),
+  transcript_type = as.character(paste(rd$transcript_type, collapse = "|"))
+)
+
+counts <- data.frame(assay(tse))
+counts$seq <- rownames(counts)
+
+
+df <- merge(anno, counts)
+
+head(df)
+
+
+### aggregate based on transcript id, type and valid?
+
+ag <- plgINS::plag(x = df[,-c(1:3)], by = df$transcript_id)
+
+df1 <- ag
+df1$tr_id <- rownames(df1)
+
+tr <- strsplit(df1$tr_id, "\\|")
+tr_sp <- data.frame(sapply(1:22, function(x) lapply(tr, function(y) y[x])))
+
+test <- data.frame(sapply(1:22, function(x) !is.na(tr_sp[,x])))
+
+df2 <- NULL
+for(i in 1:ncol(test)){
+  tmp <- df1[test[,i],]
+  tmp2 <- as.character(tr_sp[,i])[!is.na(as.character(tr_sp[,i]))]
+  tmp$tr_id2 <- tmp2
+  df2 <- rbind(df2, tmp)
+}
+
+library(SummarizedExperiment)
+
+se <- SummarizedExperiment(assays = list(counts = df2))
+
+saveRDS(se, "shortRNA.rds")
+```
+

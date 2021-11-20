@@ -1,0 +1,75 @@
+---
+title: "sports1"
+author: "Deepak Tanwar"
+date: "28/09/2021"
+output: html_document
+---
+
+```{r}
+readSports <- function(folder){
+  library(SummarizedExperiment)
+  a <- list.files(folder, pattern="summary\\.txt$", full.names=TRUE, recursive = T)
+  lf <- list.files(folder, pattern="_length_distribution\\.txt$", recursive=TRUE, full.names=TRUE)
+  names(lf) <- gsub("_length_distribution\\.txt$", "", basename(lf))
+  names(a) <- names(lf)
+  
+  ld <- lapply(lf, header=TRUE, FUN=read.delim)
+  ld.range <- range(unlist(lapply(ld, FUN=function(x) x[,2])))
+  ld.range <- as.character(seq(ld.range[1],ld.range[2]))
+  ld <- vapply(ld, FUN.VALUE=numeric(length(ld.range)), FUN=function(x){
+    x <- x[x[,1]=="Clean_Reads",]
+    row.names(x) <- x[,2]
+    y <- x[ld.range,3]
+    y[is.na(y)] <- 0
+    as.numeric(y)
+  })
+  row.names(ld) <- ld.range
+  lf <- list.files(folder, pattern="summary\\.txt$", recursive=TRUE, full.names=TRUE)
+  lf <- lf[grep("mismatch_summary", lf, invert=TRUE)]
+  names(lf) <- gsub("_summary\\.txt$", "", basename(lf))
+  e <- lapply(lf, FUN=function(x){
+    a <- read.delim(x, header=TRUE, stringsAsFactors = FALSE)
+    w <- c(which(a$Class!="-"),nrow(a)+1)
+    a$Class <- rep(a$Class[w[-length(w)]], sapply(seq(2,length(w)), FUN=function(i) w[i]-w[i-1]))
+    list(cl=a[a$Sub_Class=="-",-2], e=a[a$Sub_Class!="-",])
+  })
+  cl <- lapply(e, FUN=function(x){
+    y <- x$cl[,2]
+    names(y) <- x$cl[,1]
+    y
+  })
+  anno <- as.data.frame(do.call(rbind, lapply(e, FUN=function(x) x$e[,1:2])))
+  anno <- anno[!duplicated(anno),]
+  row.names(anno) <- paste(anno[,1],anno[,2],sep="/")
+  anno$source <- vapply(strsplit(as.character(anno$Class),"-"), 
+                        FUN.VALUE=character(1L), FUN=function(x) x[1])
+  anno$match <- grepl("_Match_Genome$",row.names(anno))
+  anno$Class <- gsub("_Match_Genome$|_Unmatch_Genome$|_3_end|_5_end|_CCA_end","",anno$Class)
+  anno <- anno[order(anno$source, anno$match, anno$Sub_Class),]
+  e <- vapply(e, FUN.VALUE=numeric(nrow(anno)), FUN=function(x){
+    x <- x$e
+    row.names(x) <- paste(x[,1],x[,2],sep="/")
+    x <- x[row.names(anno),3]
+    x[is.na(x)] <- 0
+    as.numeric(x)
+  })
+  colnames(e) <- names(lf)
+  row.names(e) <- row.names(anno)
+  se <- SummarizedExperiment( list(counts=e), rowData=anno )
+  for(f in c("Clean_Reads","Match_Genome","Unannotated_Match_Genome","Unannotated_Unmatch_Genome")){
+    se[[f]] <- vapply(cl, FUN.VALUE = numeric(1L), FUN=function(x) x[f])
+  }
+  metadata(se)$length_distributions <- ld
+  se
+}
+```
+
+```{r}
+sp <- readSports(folder = "../../sports1_old/")
+saveRDS(object = sp, file = "sports.rds")
+```
+
+```{r}
+sp1 <- readSports(folder = "../../sports1/")
+saveRDS(object = sp1, file = "sports_DKT.rds")
+```

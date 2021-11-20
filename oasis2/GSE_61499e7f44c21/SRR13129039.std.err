@@ -1,0 +1,160 @@
+You are running cutadapt 1.7.1 with Python 2.7.6
+Command line parameters: -a TGGAATTCTCGGGTGCCAAGG /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129039/SRR13129039_cat.fastq
+Maximum error rate: 10.00%
+   No. of adapters: 1
+   Processed reads:      7830099
+   Processed bases:    224453362 bp (224.5 Mbp)
+     Trimmed reads:      1197280 (15.3%)
+     Trimmed bases:     15332242 bp (15.3 Mbp) (6.83% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:     72.09 s
+     Time per read:      0.009 ms
+
+=== Adapter 1 ===
+
+Sequence: TGGAATTCTCGGGTGCCAAGG; Type: regular 3'; Length: 21; Trimmed: 1197280 times.
+
+No. of allowed errors:
+0-9 bp: 0; 10-19 bp: 1; 20-21 bp: 2
+
+Bases preceding removed adapters:
+  A: 12.6%
+  C: 48.5%
+  G: 22.5%
+  T: 16.3%
+  none/other: 0.0%
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+3	138694	122345.3	0	138694
+4	25070	30586.3	0	25070
+5	4293	7646.6	0	4293
+6	722	1911.6	0	722
+7	287	477.9	0	287
+8	3813	119.5	0	3813
+9	5671	29.9	0	1239 4432
+10	29971	7.5	1	4474 25497
+11	38124	1.9	1	12 38112
+12	68751	0.5	1	28 68723
+13	151691	0.1	1	592 151099
+14	264481	0.0	1	89 264392
+15	271760	0.0	1	42 271718
+16	87493	0.0	1	1 87492
+17	44375	0.0	1	2 44373
+18	31211	0.0	1	0 30812 399
+19	13464	0.0	1	0 12970 494
+20	2157	0.0	2	0 811 1346
+21	1733	0.0	2	0 0 1733
+22	1264	0.0	2	0 1 1263
+23	1276	0.0	2	0 0 1276
+24	1669	0.0	2	0 0 1669
+25	1775	0.0	2	0 0 1775
+26	1416	0.0	2	0 0 1416
+27	1321	0.0	2	0 0 1321
+28	986	0.0	2	0 0 986
+29	1250	0.0	2	0 0 1250
+30	711	0.0	2	0 0 711
+31	556	0.0	2	0 0 556
+32	544	0.0	2	0 0 544
+33	342	0.0	2	0 0 342
+34	143	0.0	2	0 0 143
+35	113	0.0	2	0 0 113
+36	32	0.0	2	0 0 32
+37	51	0.0	2	0 0 51
+38	21	0.0	2	0 0 21
+39	3	0.0	2	0 0 3
+40	3	0.0	2	0 0 3
+41	2	0.0	2	0 0 2
+42	6	0.0	2	0 0 6
+43	35	0.0	2	0 0 35
+
+Started analysis of SRR13129039-trimmed.fastq
+Approx 5% complete for SRR13129039-trimmed.fastq
+Approx 10% complete for SRR13129039-trimmed.fastq
+Approx 15% complete for SRR13129039-trimmed.fastq
+Approx 20% complete for SRR13129039-trimmed.fastq
+Approx 25% complete for SRR13129039-trimmed.fastq
+Approx 30% complete for SRR13129039-trimmed.fastq
+Approx 35% complete for SRR13129039-trimmed.fastq
+Approx 40% complete for SRR13129039-trimmed.fastq
+Approx 45% complete for SRR13129039-trimmed.fastq
+Approx 50% complete for SRR13129039-trimmed.fastq
+Approx 55% complete for SRR13129039-trimmed.fastq
+Approx 60% complete for SRR13129039-trimmed.fastq
+Approx 65% complete for SRR13129039-trimmed.fastq
+Approx 70% complete for SRR13129039-trimmed.fastq
+Approx 75% complete for SRR13129039-trimmed.fastq
+Approx 80% complete for SRR13129039-trimmed.fastq
+Approx 85% complete for SRR13129039-trimmed.fastq
+Approx 90% complete for SRR13129039-trimmed.fastq
+Approx 95% complete for SRR13129039-trimmed.fastq
+Approx 100% complete for SRR13129039-trimmed.fastq
+Started analysis of SRR13129039-nofilt-trimmed.fastq
+Approx 5% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 10% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 15% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 20% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 25% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 30% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 35% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 40% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 45% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 50% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 55% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 60% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 65% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 70% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 75% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 80% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 85% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 90% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 95% complete for SRR13129039-nofilt-trimmed.fastq
+Approx 100% complete for SRR13129039-nofilt-trimmed.fastq
+mac2unix: converting file /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129039/error.log to Unix format ...
+mac2unix: converting file /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129039/output.log to Unix format ...
+
+        ==========     _____ _    _ ____  _____  ______          _____  
+        =====         / ____| |  | |  _ \|  __ \|  ____|   /\   |  __ \ 
+          =====      | (___ | |  | | |_) | |__) | |__     /  \  | |  | |
+            ====      \___ \| |  | |  _ <|  _  /|  __|   / /\ \ | |  | |
+              ====    ____) | |__| | |_) | | \ \| |____ / ____ \| |__| |
+        ==========   |_____/ \____/|____/|_|  \_\______/_/    \_\_____/
+	  v1.4.6
+
+//========================== featureCounts setting ===========================\\
+||                                                                            ||
+||             Input files : 1 BAM file                                       ||
+||                           S /share/de/GSE_61499e7f44c21/SRR13129039-al ... ||
+||                                                                            ||
+||             Output file : /share/de/GSE_61499e7f44c21/GSE_61499e7f44c2 ... ||
+||             Annotations : /home/vsac/database2/all/saf/all.saf (SAF)       ||
+||                                                                            ||
+||                 Threads : 1                                                ||
+||                   Level : meta-feature level                               ||
+||              Paired-end : no                                               ||
+||         Strand specific : no                                               ||
+||      Multimapping reads : not counted                                      ||
+|| Multi-overlapping reads : not counted                                      ||
+||                                                                            ||
+\\===================== http://subread.sourceforge.net/ ======================//
+
+//================================= Running ==================================\\
+||                                                                            ||
+|| Load annotation file /home/vsac/database2/all/saf/all.saf ...              ||
+||    Features : 23571                                                        ||
+||    Meta-features : 23571                                                   ||
+||    Chromosomes : 23571                                                     ||
+||                                                                            ||
+|| Process BAM file /share/de/GSE_61499e7f44c21/SRR13129039-all.bam...        ||
+||    Single-end reads are included.                                          ||
+||    Assign reads to features...                                             ||
+||    Total reads : 2754874                                                   ||
+||    Successfully assigned reads : 45 (0.0%)                                 ||
+||    Running time : 0.05 minutes                                             ||
+||                                                                            ||
+||                         Read assignment finished.                          ||
+||                                                                            ||
+\\===================== http://subread.sourceforge.net/ ======================//
+
+cat: SRR13129039: No such file or directory

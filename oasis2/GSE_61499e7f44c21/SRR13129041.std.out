@@ -1,0 +1,53 @@
+UNCONDITIONAL_BIDIRECTIONAL_TRIM_LENGTH=0
+No barcode trimming requested by user
+Analysis complete for SRR13129041-trimmed.fastq
+Analysis complete for SRR13129041-nofilt-trimmed.fastq
+Archive:  SRR13129041.fastq.gz.fasta.fastq.zip
+   creating: SRR13129041.fastq.gz.fasta.fastq/
+   creating: SRR13129041.fastq.gz.fasta.fastq/Icons/
+   creating: SRR13129041.fastq.gz.fasta.fastq/Images/
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Icons/fastqc_icon.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Icons/warning.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Icons/error.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Icons/tick.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/summary.txt  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Images/per_base_quality.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Images/per_sequence_quality.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Images/per_base_sequence_content.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Images/per_sequence_gc_content.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Images/per_base_n_content.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Images/sequence_length_distribution.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Images/duplication_levels.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Images/adapter_content.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/Images/kmer_profiles.png  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/fastqc_report.html  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/fastqc_data.txt  
+  inflating: SRR13129041.fastq.gz.fasta.fastq/fastqc.fo  
+Mapping against miRNAs
+Extract unmapped reads from bam file /share/de/GSE_61499e7f44c21/SRR13129041-mirna.bam
+Convert bam file /share/de/GSE_61499e7f44c21/SRR13129041-mirna_unmapped.bam to fastq file
+Mapping the rest of the reads of sample SRR13129041 against other sRNAs
+Extract unmapped reads from bam file /share/de/GSE_61499e7f44c21/SRR13129041-srna.bam
+Convert the bam file of the unmapped reads of sample SRR13129041 to fasta
+Mapping against the reference genome and extract the unmapped reads to study the contamination
+Running kraken package for sample SRR13129041
+Mapping the rest of the reads to the other mirna genomes
+Create count file
+Adding mirna to the count file /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/SRR13129041_allspeciesCounts.txt
+Adding pirna to the count file /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/SRR13129041_allspeciesCounts.txt
+Adding snorna to the count file /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/SRR13129041_allspeciesCounts.txt
+Adding snrna to the count file /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/SRR13129041_allspeciesCounts.txt
+Adding rrna to the count file /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/SRR13129041_allspeciesCounts.txt
+/share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/SRR13129041-smallrnaOutput/mapping/SRR13129041-Log.final.out
+NUMER_READS:5001369
+UNIQUE_MAPPED_READS=276576
+MULTIPLE_MAPPED_READS=64302
+[1] "/share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/Sample_readsR.log"
+[1] "/share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/Sample_smallrnaR.log"
+[1] "/share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/Sample_trimR.log"
+[1] "/share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/Sample_starR.log"
+[1] "numberReads"
+[1] "trim"
+[1] "map"
+[1] "smallRNA"
+Sample SRR13129041 finished with no errors

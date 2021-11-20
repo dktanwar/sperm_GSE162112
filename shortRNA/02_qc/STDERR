@@ -1,0 +1,408 @@
+
+
+processing file: qc_report.Rmd
+Rfastp is a wrapper of fastp project: https://github.com/OpenGene/fastp
+
+Please cite fastp in your publication:
+Shifu Chen, Yanqing Zhou, Yaru Chen, Jia Gu; fastp: an ultra-fast all-in-one 
+    FASTQ preprocessor, Bioinformatics, Volume 34, Issue 17, 1 September 2018,
+    Pages i884-i890, https://doi.org/10.1093/bioinformatics/bty560
+Loading required package: ggplot2
+
+Attaching package: 'plotly'
+
+The following object is masked from 'package:ggplot2':
+
+    last_plot
+
+The following object is masked from 'package:stats':
+
+    filter
+
+The following object is masked from 'package:graphics':
+
+    layout
+
+
+Attaching package: 'plyr'
+
+The following objects are masked from 'package:plotly':
+
+    arrange, mutate, rename, summarise
+
+No trace type specified:
+  Based on info supplied, a 'scatter' trace seems appropriate.
+  Read more about this trace type -> https://plotly.com/r/reference/#scatter
+No scatter mode specifed:
+  Setting the mode to markers
+  Read more about this attribute -> https://plotly.com/r/reference/#scatter-mode
+[9:39:30] start to load data
+[9:39:31] start to load data
+[9:39:31] start to load data
+[9:39:[9:39:31] start to load data
+31] start to load data
+[9:39:31] start to load data
+[9:39:31] start to load data
+[9:39:31] start to load data
+[9:39:34] loaded 1M reads
+[9:39:35] loaded 1M reads
+[9:39:35] loaded 1M reads
+[9:39:35] loaded 1M reads
+[9:39:35] loaded 1M reads
+[9:39:35] loaded 1M reads
+[9:39:36] loaded 1M reads
+[9:39:36] loaded 1M reads
+[9:39:38] loaded 2M reads
+[9:39:39] loaded 2M reads
+[9:39:39] loaded 2M reads
+[9:39:39] loaded 2M reads
+[9:39:40] loaded 2M reads
+[9:39:40] loaded 2M reads
+[9:39:40] loaded 2M reads
+[9:39:40] loaded 2M reads
+[9:39:43] loaded 3M reads
+[9:39:43] loaded 3M reads
+[9:39:43] loaded 3M reads
+[9:39:44] loaded 3M reads
+[9:39:44] loaded 3M reads
+[9:39:44] loaded 3M reads
+[9:39:44] loaded 3M reads
+[9:39:44] loaded 3M reads
+[9:39:47] loaded 4M reads
+[9:39:48] loaded 4M reads
+[9:39:48] loaded 4M reads
+[9:39:48] loaded 4M reads
+[9:39:48] loaded 4M reads
+[9:39:48] loaded 4M reads
+[9:39:48] loaded 4M reads
+[9:39:48] loaded 4M reads
+[9:39:50] all reads loaded, start to monitor thread status
+[9:39:50] thread 1 is processing the 4384 / 4385 pack
+[9:39:50] thread 3 is processing the 4384 / 4385 pack
+[9:39:50] thread 2 is processing the 4384 / 4385 pack
+[9:39:50] thread 4 is processing the 4384 / 4385 pack
+[9:39:50] thread 1 data processing completed
+[9:39:50] thread 1 finished
+[9:39:50] thread 3 data processing completed
+[9:39:50] thread 3 finished
+[9:39:50] thread 4 data processing completed
+[9:39:50] thread 4 finished
+[9:39:50] thread 2 data processing completed
+[9:39:50] thread 2 finished
+[9:39:50] all reads loaded, start to monitor thread status
+[9:39:50] thread 3 is processing the 4500 / 4502 pack
+[9:39:50] thread 1 is processing the 4500 / 4502 pack
+[9:39:50] thread 2 is processing the 4500 / 4502 pack
+[9:39:50] thread 4 is processing the 4500 / 4502 pack
+[9:39:50] thread 1 data processing completed
+[9:39:50] thread 1 finished
+[9:39:50] thread 2 data processing completed
+[9:39:50] thread 2 finished
+[9:39:50] thread 3 data processing completed
+[9:39:50] thread 3 finished
+[9:39:50] thread 4 data processing completed
+[9:39:50] thread 4 finished
+[9:39:50] output//SRR13129043_R1.fastq.gz writer finished
+[9:39:50] start to generate reports
+
+Read1 before filtering:
+total reads: 4384159
+total bases: 146604195
+Q20 bases: 134363573(91.6506%)
+Q30 bases: 124460441(84.8956%)
+
+Read1 after filtering:
+total reads: 4197599
+total bases: 129431304
+Q20 bases: 121890795(94.1741%)
+Q30 bases: 114301250(88.3104%)
+
+Filtering result:
+reads passed filter: 4197599
+reads failed due to low quality: 66768
+reads failed due to too many N: 0
+reads failed due to too short: 119792
+reads with adapter trimmed: 838805
+bases trimmed due to adapters: 11850147
+
+Duplication rate (may be overestimated since this is SE data): 11.2704%
+[9:39:51] output//SRR13129042_R1.fastq.gz writer finished
+[9:39:51] start to generate reports
+
+Read1 before filtering:
+total reads: 4501226
+total bases: 148716550
+Q20 bases: 136504656(91.7885%)
+Q30 bases: 126439280(85.0203%)
+
+Read1 after filtering:
+total reads: 4297238
+total bases: 131971658
+Q20 bases: 124260094(94.1567%)
+Q30 bases: 116608772(88.359%)
+
+Filtering result:
+reads passed filter: 4297238
+reads failed due to low quality: 59790
+reads failed due to too many N: 0
+reads failed due to too short: 144198
+reads with adapter trimmed: 827176
+bases trimmed due to adapters: 11515073
+
+Duplication rate (may be overestimated since this is SE data): 10.1702%
+[9:39:52] loaded 5M reads
+[9:39:52] loaded 5M reads
+[9:39:52] loaded 5M reads
+[9:39:52] all reads loaded, start to monitor thread status
+[9:39:52] thread 1 is processing the 5000 / 5002 pack
+[9:39:52] thread 3 is processing the 5000 / 5002 pack
+[9:39:52] thread 2 is processing the 5000 / 5002 pack
+[9:39:52] thread 4 is processing the 5000 / 5002 pack
+[9:39:52] thread 3 data processing completed
+[9:39:52] thread 3 finished
+[9:39:52] thread 1 data processing completed
+[9:39:52] thread 1 finished
+[9:39:52] thread 2 data processing completed
+[9:39:52] thread 2 finished
+[9:39:52] thread 4 data processing completed
+[9:39:52] thread 4 finished
+[9:39:52] loaded 5M reads
+[9:39:52] output//SRR13129041_R1.fastq.gz writer finished
+[9:39:52] start to generate reports
+
+Read1 before filtering:
+total reads: 5001369
+total bases: 156293132
+Q20 bases: 143287472(91.6787%)
+Q30 bases: 132726493(84.9215%)
+
+Read1 after filtering:
+total reads: 4737687
+total bases: 136251428
+Q20 bases: 128073054(93.9976%)
+Q30 bases: 120073758(88.1266%)
+
+Filtering result:
+reads passed filter: 4737687
+reads failed due to low quality: 66542
+reads failed due to too many N: 0
+reads failed due to too short: 197140
+reads with adapter trimmed: 953432
+bases trimmed due to adapters: 13884719
+
+Duplication rate (may be overestimated since this is SE data): 8.6471%
+[9:39:52] loaded 5M reads
+[9:39:53] loaded 5M reads
+[9:39:55] loaded 6M reads
+[9:39:56] loaded 6M reads
+[9:39:56] loaded 6M reads
+[9:39:56] loaded 6M reads
+[9:39:56] loaded 6M reads
+[9:39:59] loaded 7M reads
+[9:39:59] loaded 7M reads
+[9:39:59] loaded 7M reads
+[9:40:0] loaded 7M reads
+[9:40:0] loaded 7M reads
+[9:40:2] all reads loaded, start to monitor thread status
+[9:40:2] thread 2 is processing the 7867 / 7868 pack
+[9:40:2] thread 1 is processing the 7867 / 7868 pack
+[9:40:2] thread 4 data processing completed
+[9:40:2] thread 4 finished
+[9:40:2] thread 1 data processing completed
+[9:40:2] thread 1 finished
+[9:40:2] thread 3 data processing completed
+[9:40:2] thread 3 finished
+[9:40:2] thread 2 data processing completed
+[9:40:2] thread 2 finished
+[9:40:2] output//SRR13129037_R1.fastq.gz writer finished
+[9:40:2] start to generate reports
+
+Read1 before filtering:
+total reads: 7867867
+total bases: 240054600
+Q20 bases: 225451404(93.9167%)
+Q30 bases: 212505540(88.5238%)
+
+Read1 after filtering:
+total reads: 7450311
+total bases: 216714804
+Q20 bases: 207087385(95.5576%)
+Q30 bases: 196728119(90.7774%)
+
+Filtering result:
+reads passed filter: 7450311
+reads failed due to low quality: 71235
+reads failed due to too many N: 0
+reads failed due to too short: 346321
+reads with adapter trimmed: 1064366
+bases trimmed due to adapters: 15045313
+
+Duplication rate (may be overestimated since this is SE data): 5.89437%
+[9:40:2] loaded 8M reads
+[9:40:2] loaded 8M reads
+[9:40:3] all reads loaded, start to monitor thread status
+[9:40:3] thread 4 is processing the 7829 / 7831 pack
+[9:40:3] thread 3 is processing the 7829 / 7831 pack
+[9:40:3] thread 1 is processing the 7829 / 7831 pack
+[9:40:3] thread 2 is processing the 7829 / 7831 pack
+[9:40:3] thread 4 is processing the 7830 / 7831 pack
+[9:40:3] thread 2 data processing completed
+[9:40:3] thread 2 finished
+[9:40:3] thread 4 data processing completed
+[9:40:3] thread 1 data processing completed
+[9:40:3] output//SRR13129039_R1.fastq.gz writer finished
+[9:40:3] thread 4 finished
+[9:40:3] thread 1 finished
+[9:40:3] thread 3 data processing completed
+[9:40:3] thread 3 finished
+[9:40:3] start to generate reports
+
+Read1 before filtering:
+total reads: 7830099
+total bases: 224453362
+Q20 bases: 210404041(93.7407%)
+Q30 bases: 197933302(88.1846%)
+
+Read1 after filtering:
+total reads: 7176073
+total bases: 202756457
+Q20 bases: 193614861(95.4913%)
+Q30 bases: 183785082(90.6433%)
+
+Filtering result:
+reads passed filter: 7176073
+reads failed due to low quality: 66473
+reads failed due to too many N: 0
+reads failed due to too short: 587553
+reads with adapter trimmed: 764566
+bases trimmed due to adapters: 10628357
+
+Duplication rate (may be overestimated since this is SE data): 5.00855%
+[9:40:4] loaded 8M reads
+[9:40:4] all reads loaded, start to monitor thread status
+[9:40:4] thread 3 is processing the 8208 / 8209 pack
+[9:40:4] thread 1 is processing the 8208 / 8209 pack
+[9:40:4] thread 1 data processing completed
+[9:40:4] thread 1 finished
+[9:40:4] thread 2 data processing completed
+[9:40:4] thread 2 finished
+[9:40:4] thread 3 data processing completed
+[9:40:4] thread 3 finished
+[9:40:4] thread 4 data processing completed
+[9:40:4] thread 4 finished
+[9:40:4] output//SRR13129040_R1.fastq.gz writer finished
+[9:40:4] start to generate reports
+
+Read1 before filtering:
+total reads: 8208659
+total bases: 244636315
+Q20 bases: 230210355(94.1031%)
+Q30 bases: 217184942(88.7787%)
+
+Read1 after filtering:
+total reads: 7816079
+total bases: 225710316
+Q20 bases: 215794836(95.607%)
+Q30 bases: 205089922(90.8642%)
+
+Filtering result:
+reads passed filter: 7816079
+reads failed due to low quality: 65540
+reads failed due to too many N: 0
+reads failed due to too short: 327040
+reads with adapter trimmed: 797005
+bases trimmed due to adapters: 11195325
+
+Duplication rate (may be overestimated since this is SE data): 5.09509%
+[9:40:5] loaded 9M reads
+[9:40:5] loaded 9M reads
+[9:40:8] loaded 10M reads
+[9:[940:8] loaded 10M reads
+:40:8] all reads loaded, start to monitor thread status
+[9:40:8] thread 1 is processing the 10194 / 10195 pack
+[9:40:8] thread 2 is processing the 10194 / 10195 pack
+[9:40:8] thread 4 is processing the 10194 / 10195 pack
+[9:40:8] thread 3 is processing the 10194 / 10195 pack
+[9:40:9] thread 4 data processing completed
+[9:40:9] thread 4 finished
+[9:40:9] thread 3 data processing completed
+[9:40:9] thread 3 finished
+[9:40:9] thread 2 data processing completed
+[9:40:9] thread 2 finished
+[9:40:9] thread 1 data processing completed
+[9:40:9] thread 1 finished
+[9:40:9] output//SRR13129038_R1.fastq.gz writer finished
+[9:40:9] start to generate reports
+
+Read1 before filtering:
+total reads: 10194925
+total bases: 281230897
+Q20 bases: 266372556(94.7167%)
+Q30 bases: 252189890(89.6736%)
+
+Read1 after filtering:
+total reads: 9452835
+total bases: 261140391
+Q20 bases: 250299658(95.8487%)
+Q30 bases: 238272627(91.2431%)
+
+Filtering result:
+reads passed filter: 9452835
+reads failed due to low quality: 61669
+reads failed due to too many N: 0
+reads failed due to too short: 680421
+reads with adapter trimmed: 597620
+bases trimmed due to adapters: 8279896
+
+Duplication rate (may be overestimated since this is SE data): 4.61915%
+[9:40:11] loaded 11M reads
+[9:40:12] all reads loaded, start to monitor thread status
+[9:40:12] thread 3 is processing the 11184 / 11186 pack
+[9:40:12] thread 2 is processing the 11184 / 11186 pack
+[9:40:12] thread 4 is processing the 11184 / 11186 pack
+[9:40:12] thread 2 data processing completed
+[9:40:12] thread 2 finished
+[9:40:12] thread 1 data processing completed
+[9:40:12] thread 1 finished
+[9:40:12] thread 4 data processing completed
+[9:40:12] thread 4 finished
+[9:40:12] thread 3 data processing completed
+[9:40:12] thread 3 finished
+[9:40:12] output//SRR13129036_R1.fastq.gz writer finished
+[9:40:12] start to generate reports
+
+Read1 before filtering:
+total reads: 11185006
+total bases: 357252971
+Q20 bases: 334375297(93.5962%)
+Q30 bases: 314060291(87.9098%)
+
+Read1 after filtering:
+total reads: 10827559
+total bases: 329736216
+Q20 bases: 314144334(95.2714%)
+Q30 bases: 297339513(90.175%)
+
+Filtering result:
+reads passed filter: 10827559
+reads failed due to low quality: 114349
+reads failed due to too many N: 0
+reads failed due to too short: 243098
+reads with adapter trimmed: 1310650
+bases trimmed due to adapters: 18056677
+
+Duplication rate (may be overestimated since this is SE data): 8.93013%
+output file: qc_report.knit.md
+
+
+Output created: qc_report.html
+Warning messages:
+1: No trace type specified and no positional attributes specified 
+2: Can't display both discrete & non-discrete data on same axis 
+3: Can't display both discrete & non-discrete data on same axis 
+4: Can't display both discrete & non-discrete data on same axis 
+5: Can't display both discrete & non-discrete data on same axis 
+6: Can't display both discrete & non-discrete data on same axis 
+7: Can't display both discrete & non-discrete data on same axis 
+8: Can't display both discrete & non-discrete data on same axis 
+9: Can't display both discrete & non-discrete data on same axis 

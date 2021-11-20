@@ -1,0 +1,11 @@
+PASS	Basic Statistics	SRR13129043.fastq.gz.fasta.fastq
+FAIL	Per base sequence quality	SRR13129043.fastq.gz.fasta.fastq
+PASS	Per sequence quality scores	SRR13129043.fastq.gz.fasta.fastq
+FAIL	Per base sequence content	SRR13129043.fastq.gz.fasta.fastq
+FAIL	Per sequence GC content	SRR13129043.fastq.gz.fasta.fastq
+PASS	Per base N content	SRR13129043.fastq.gz.fasta.fastq
+WARN	Sequence Length Distribution	SRR13129043.fastq.gz.fasta.fastq
+PASS	Sequence Duplication Levels	SRR13129043.fastq.gz.fasta.fastq
+PASS	Overrepresented sequences	SRR13129043.fastq.gz.fasta.fastq
+PASS	Adapter Content	SRR13129043.fastq.gz.fasta.fastq
+FAIL	Kmer Content	SRR13129043.fastq.gz.fasta.fastq

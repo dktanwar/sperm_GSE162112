@@ -1,0 +1,511 @@
+---
+title: "comparison of counts"
+author: "Deepak Tanwar"
+date: "28/09/2021"
+output: html_document
+---
+
+
+# Libraries
+```{r, warning=F, message=F}
+library(SummarizedExperiment)
+library(ggvenn)
+library(ComplexHeatmap)
+library(plgINS)
+library(patchwork)
+library(rtracklayer)
+library(GenomicFeatures)
+library(edgeR)
+library(ggpubr)
+```
+
+# All files
+```{r}
+shortRNA <- readRDS("data/shortRNA.rds")
+
+sports <- readRDS("data/sports.rds")
+
+sports1 <- readRDS("data/sports_DKT.rds")
+
+oasis <- readRDS("data/oasis.rds")
+
+seqpac <- readRDS("data/seqpac.rds")
+```
+
+# Data frames
+```{r, warning=F, message=F}
+df_oa <- data.frame(assay(oasis))
+df_oa <- cpm(calcNormFactors(DGEList(df_oa)), log = T)
+
+df_sp <- data.frame(assay(sports))
+df_sp <- cpm(calcNormFactors(DGEList(df_sp)), log = T)
+
+df_sp1 <- data.frame(assay(sports1))
+df_sp1 <- cpm(calcNormFactors(DGEList(df_sp1)), log = T)
+
+df_sh <- data.frame(assay(shortRNA))
+df_sh[,1:8] <- cpm(calcNormFactors(DGEList(df_sh[,1:8])), log = T)
+
+df_sq <- data.frame(assay(seqpac))
+df_sq[,1:8] <- cpm(calcNormFactors(DGEList(df_sq[,1:8])), log = T)
+```
+
+# miRNAs
+```{r, warning=F, message=F}
+oa_mir <- df_oa
+oa_df <- oa_mir
+rownames(oa_df) <- gsub(pattern = "mmu-", replacement = "", x = rownames(oa_df))
+rownames(oa_df) <- gsub(pattern = "p-", replacement = "", x = rownames(oa_df))
+
+sp_mir <- df_sp[grep(pattern = "mmu-", x = rownames(df_sp), value = T), ]
+sp_mir1 <- df_sp1[grep(pattern = "mmu-", x = rownames(df_sp1), value = T), ]
+
+sh_mir <- df_sh[grep(pattern = "miR-|^MI", x = df_sh$tr_id2, value = F), ]
+sh_df <- plgINS::plag(x = sh_mir[, 1:8], by = sh_mir$tr_id2)
+sh_df$tx_id <- rownames(sh_df)
+features <- data.frame(readRDS("../../shortRNA/genome/features.rds"))
+sh_df <- merge(features[,c("tx_id", "symbol")], sh_df)
+sh_df$tx_id <- sapply(seq_along(sh_df$tx_id), function(x){
+  if(startsWith(sh_df$tx_id[x],"MI")){
+    a <- gsub(pattern = ".*_", replacement = "", x = sh_df$symbol[x])
+    return(a)
+  } else{
+    return(sh_df$tx_id[x])
+  }
+})
+
+sh_df <- sh_df[,-2]
+sh_df <- sh_df[!duplicated(sh_df),]
+sh_df$tx_id <- gsub(pattern = "mir", replacement = "miR", x = sh_df$tx_id)
+sh_df <- plgINS::plag(x = sh_df[, -1], by = sh_df$tx_id)
+# rownames(sh_df) <- sh_df$tx_id
+# sh_df <- sh_df[,-1]
+
+
+sq_mir <- df_sq[grep(pattern = "mir-|miR", x = df_sq$tr_id2, value = F), ]
+sq_df <- plgINS::plag(x = sq_mir[, 1:8], by = sq_mir$tr_id2)
+rownames(sq_df) <- gsub(pattern = "mir", replacement = "miR", x = rownames(sq_df))
+rownames(sq_df) <- gsub(pattern = "mmu-", replacement = "", x = rownames(sq_df))
+
+sp_df <- sp_mir
+sp_df <- sp_df[grep(pattern = "Match_", x = rownames(sp_df), value = T), ]
+rownames(sp_df) <- gsub(pattern = ".*\\/mmu-", replacement = "", x = rownames(sp_df))
+rownames(sp_df) <- gsub(pattern = "mir", replacement = "miR", x = rownames(sp_df))
+
+sp_df1 <- data.frame(sp_mir1)
+sp_df1 <- sp_df1[grep(pattern = "Match_", x = rownames(sp_df1), value = T), ]
+rownames(sp_df1) <- gsub(pattern = ".*\\/mmu-", replacement = "", x = rownames(sp_df1))
+sp_df1$tr <- rownames(sp_df1)
+sp_df1$tr <- gsub(pattern = "mir", replacement = "miR", x = sp_df1$tr)
+sp_df1 <- plgINS::plag(x = sp_df1[, 1:8], by = sp_df1$tr)
+```
+
+# Venn diagram
+```{r, fig.width=11, fig.height=8.5, warning=F, message=F}
+v1 <- ggvenn::ggvenn(list(
+  shortRNA = rownames(sh_df),
+  Sports1 = rownames(sp_df1),
+  Sports = rownames(sp_df)
+),
+fill_color = c("#0073C2FF", "#EFC000FF", "#CD534CFF")
+)
+
+v2 <- ggvenn::ggvenn(list(
+  shortRNA = rownames(sh_df),
+  seqpac = rownames(sq_df)
+),
+fill_color = c("#0073C2FF", "#CD534CFF")
+)
+
+v3 <- ggvenn::ggvenn(list(
+  shortRNA = rownames(sh_df),
+  Oasis = rownames(oa_df)
+),
+fill_color = c("#0073C2FF", "#CD534CFF")
+)
+
+
+v1 | v2 | v3
+```
+
+# Upset plot
+```{r}
+library(ggupset)
+
+ups <- rbind(
+  data.frame(miRNA = rownames(sh_df), Tool = "shortRNA"),
+  data.frame(miRNA = rownames(sp_df), Tool = "Sports1"),
+  data.frame(miRNA = rownames(sq_df), Tool = "seqpac"),
+  data.frame(miRNA = rownames(oa_df), Tool = "Oasis2")
+)
+ups <- split(ups$Tool, ups$miRNA)
+
+df <- DataFrame(miRNA = names(ups))
+df$Tool <- as.list(ups)
+
+miss <- ups[lengths(ups) == 3]
+miss_231 <- lapply(miss, function(x) grep("shortRNA", x, invert = T, value = T))
+miss_231 <- miss_231[lengths(miss_231) == 3]
+
+
+saveRDS(names(miss_231), "miss231.rds")
+
+
+up <- ggplot(as_tibble(df), aes(Tool)) +
+  geom_bar(color = "#00846B", fill = "#00846B") +
+  geom_text(stat = "count", aes(label = after_stat(count)), size = 4, vjust = -0.3) +
+  xlab("") +
+  ylab("") +
+  scale_x_upset(reverse = TRUE, order_by = "degree") +
+  theme_bw() +
+  theme(
+    axis.text = element_text(colour = "black", angle = 0, size = 12),
+    axis.title = element_text(colour = "black", size = 14),
+    legend.text = element_text(colour = "black", size = 10),
+    legend.title = element_text(size = 12, face = "plain", colour = "black"),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 14, face = "bold")
+  ) +
+  theme_combmatrix(
+    combmatrix.label.text = element_text(size = 14, color = "blue"),
+    combmatrix.label.extra_spacing = 5,
+    combmatrix.panel.point.color.fill = "#840061",
+    combmatrix.panel.point.size = 4
+  )
+up
+```
+
+
+# Scatter plots
+## Oasis2
+```{r}
+# sh_df
+# sp_df
+# sq_df
+# oa_df
+sc_sh <- data.frame(sh_df)
+sc_sh$miRNA <- rownames(sc_sh)
+sc_sh <- reshape2::melt(sc_sh)
+colnames(sc_sh) <- c("miRNA", "Samples", "shortRNA")
+
+sc_oa <- data.frame(oa_df)
+sc_oa$miRNA <- rownames(sc_oa)
+sc_oa <- reshape2::melt(sc_oa)
+colnames(sc_oa) <- c("miRNA", "Samples", "Oasis2")
+
+sc_sp <- data.frame(sp_df)
+sc_sp$miRNA <- rownames(sc_sp)
+sc_sp <- reshape2::melt(sc_sp)
+colnames(sc_sp) <- c("miRNA", "Samples", "Sports1")
+
+sc_sq <- data.frame(sq_df)
+sc_sq$miRNA <- rownames(sc_sq)
+sc_sq <- reshape2::melt(sc_sq)
+colnames(sc_sq) <- c("miRNA", "Samples", "seqpac")
+
+sh_oa <- merge(sc_sh, sc_oa)
+sh_sp <- merge(sc_sh, sc_sp)
+sh_sq <- merge(sc_sh, sc_sq)
+
+p1 <- ggplot(sh_oa, aes(x=shortRNA, y=Oasis2)) + 
+    geom_point(size = 2, alpha = 0.6, fill = "#7FCABC", colour = "black", shape = 21) +
+  theme_bw() +
+  theme(
+    axis.text = element_text(colour = "black", angle = 0, size = 12),
+    axis.title = element_text(colour = "black", size = 14),
+    legend.text = element_text(colour = "black", size = 10),
+    legend.title = element_text(size = 12, face = "plain", colour = "black"),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 14, face = "bold")
+  ) +  geom_smooth(method = "lm", formula = "y ~ x", color = "red") +
+  xlab(expression(Log[2]~CPM~(shortRNA)))  +
+  ylab(expression(Log[2]~CPM~(Oasis2))) +
+  stat_cor(
+    method = "pearson",
+    label.y.npc="top", 
+    label.x.npc = "left",
+        size = 3.5,
+    color = "blue"
+) + 
+  ylim(c(-2.5, 18))
+
+p2 <- ggplot(sh_sp, aes(x=shortRNA, y=Sports1)) + 
+    geom_point(size = 2, alpha = 0.6, fill = "#7FCABC", colour = "black", shape = 21) +
+  theme_bw() +
+  theme(
+    axis.text = element_text(colour = "black", angle = 0, size = 12),
+    axis.title = element_text(colour = "black", size = 14),
+    legend.text = element_text(colour = "black", size = 10),
+    legend.title = element_text(size = 12, face = "plain", colour = "black"),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 14, face = "bold")
+  ) +  geom_smooth(method = "lm", formula = "y ~ x", color = "red") +
+  xlab(expression(Log[2]~CPM~(shortRNA)))  +
+  ylab(expression(Log[2]~CPM~(Sports1))) +
+  stat_cor(
+    method = "pearson",
+    label.y.npc="top", 
+    label.x.npc = "left",
+        size = 3.5,
+    color = "blue"
+) +
+  ylim(c(0, 14))
+
+p3 <- ggplot(sh_sq, aes(x=shortRNA, y=seqpac)) + 
+    geom_point(size = 2, alpha = 0.6, fill = "#7FCABC", colour = "black", shape = 21) +
+  theme_bw() +
+  theme(
+    axis.text = element_text(colour = "black", angle = 0, size = 12),
+    axis.title = element_text(colour = "black", size = 14),
+    legend.text = element_text(colour = "black", size = 10),
+    legend.title = element_text(size = 12, face = "plain", colour = "black"),
+    strip.background = element_rect(fill = "white"),
+    strip.text = element_text(size = 14, face = "bold")
+  ) +  geom_smooth(method = "glm", formula = "y ~ x", color = "red") +
+  xlab(expression(Log[2]~CPM~(shortRNA)))  +
+  ylab(expression(Log[2]~CPM~(seqpac))) +
+  stat_cor(
+    method = "pearson",
+    label.y.npc="top", 
+    label.x.npc = "left",
+        size = 3.5,
+    color = "blue"
+) +
+    ylim(c(5, 75))
+
+p1|p2|p3
+```
+
+
+
+# Heatmaps
+```{r, warning=F, message=F}
+rr <- Reduce(intersect, list(rownames(sh_df), rownames(sp_df), rownames(sp_df1), rownames(oa_df), rownames(sq_df)))
+```
+
+## Full intersection
+```{r, fig.width=11, fig.height=8.5, warning=F, message=F}
+ComplexHeatmap::Heatmap(
+  matrix = sh_df[rr, ],
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  name = "shortRNA",
+  col = viridis::cividis(50)
+) +
+  ComplexHeatmap::Heatmap(
+    matrix = oa_df[rr, ],
+    cluster_rows = FALSE,
+    cluster_columns = FALSE,
+    name = "Oasis2",
+    col = viridis::inferno(50)
+  ) +
+  ComplexHeatmap::Heatmap(
+    matrix = sp_df[rr, ],
+    cluster_rows = FALSE,
+    cluster_columns = FALSE,
+    name = "Sports1",
+    col = viridis::mako(50)
+  ) +
+  ComplexHeatmap::Heatmap(
+    matrix = sp_df1[rr, ],
+    cluster_rows = FALSE,
+    cluster_columns = FALSE,
+    name = "Sports1 (DKT)",
+    col = viridis::viridis(50)
+  ) +
+  ComplexHeatmap::Heatmap(
+    matrix = sq_df[rr, ],
+    cluster_rows = FALSE,
+    cluster_columns = FALSE,
+    name = "seqpac",
+    col = viridis::rocket(50)
+  )
+```
+
+## shortRNA & Oasis2 {.tabset .tabset-pills}
+```{r, results='asis', fig.align='center', fig.height=11, fig.width=8.5, warning=F, message=F}
+plot_heatmap <- function(df1 = sh_df, df2, n1 = "shortRNA", n2) {
+  genes <- Reduce(intersect, list(rownames(df1), rownames(df2)))
+  genes <- split(genes, ceiling(seq_along(genes) / 50))
+  names(genes) <- paste0("list_", names(genes))
+  ht_list <- lapply(genes, function(x) {
+    ComplexHeatmap::Heatmap(
+      matrix = df1[x, ],
+      cluster_rows = FALSE,
+      cluster_columns = FALSE,
+      name = n1,
+      col = viridis::cividis(50)
+    ) +
+      ComplexHeatmap::Heatmap(
+        matrix = df2[x, ],
+        cluster_rows = FALSE,
+        cluster_columns = FALSE,
+        name = n2,
+        col = viridis::mako(50)
+      )
+  })
+  ht_list
+}
+
+hm <- plot_heatmap(df2 = oa_df, n2 = "Oasis2")
+
+for (i in 1:length(hm)) {
+  cat(paste("###", names(hm)[i], "\n"))
+  print(hm[[i]])
+  cat("\n\n")
+}
+```
+
+
+## shortRNA & seqpac {.tabset .tabset-pills}
+```{r, results='asis', fig.align='center', fig.height=11, fig.width=8.5, warning=F, message=F}
+hm <- plot_heatmap(df2 = sq_df, n2 = "seqpac")
+
+for (i in 1:length(hm)) {
+  cat(paste("###", names(hm)[i], "\n"))
+  print(hm[[i]])
+  cat("\n\n")
+}
+```
+
+## shortRNA & Sports1 {.tabset .tabset-pills}
+```{r, results='asis', fig.align='center', fig.height=11, fig.width=8.5, warning=F, message=F}
+hm <- plot_heatmap(df2 = sp_df, n2 = "Sports1")
+
+for (i in 1:length(hm)) {
+  cat(paste("###", names(hm)[i], "\n"))
+  print(hm[[i]])
+  cat("\n\n")
+}
+```
+
+
+## shortRNA & Sports1 (DKT) {.tabset .tabset-pills}
+```{r, results='asis', fig.align='center', fig.height=11, fig.width=8.5, warning=F, message=F}
+hm <- plot_heatmap(df2 = sp_df1, n2 = "Sports1 (DKT)")
+
+for (i in 1:length(hm)) {
+  cat(paste("###", names(hm)[i], "\n"))
+  print(hm[[i]])
+  cat("\n\n")
+}
+```
+
+
+# Subsets to test
+
+## shortRNA & Oasis2
+```{r, results='asis', fig.align='center', fig.height=5, fig.width=7, warning=F, message=F}
+rr <- c("miR-1a-3p", "miR-27a-3p", "miR-339-5p", "miR-378a-3p", "miR-3963")
+ComplexHeatmap::Heatmap(
+  matrix = sh_df[rr, ],
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  column_title = "shortRNA",
+  name = "shortRNA",
+  col = viridis::inferno(50)
+) +
+  ComplexHeatmap::Heatmap(
+    matrix = oa_df[rr, ],
+    cluster_rows = FALSE,
+    cluster_columns = FALSE,
+    column_title = "Oasis2",
+    name = "Oasis2",
+    col = viridis::inferno(50)
+  )
+```
+
+## shortRNA & Sports1
+```{r, results='asis', fig.align='center', fig.height=5, fig.width=7, warning=F, message=F}
+rr <- c("miR-2137", "miR-3962", "miR-3963", "miR-5099")
+ComplexHeatmap::Heatmap(
+  matrix = sh_df[rr, ],
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  column_title = "shortRNA",
+  name = "shortRNA",
+  col = viridis::inferno(50)
+) +
+  ComplexHeatmap::Heatmap(
+    matrix = sp_df[rr, ],
+    cluster_rows = FALSE,
+    cluster_columns = FALSE,
+    column_title = "Sports1",
+    name = "Sports1",
+    col = viridis::inferno(50)
+  )
+```
+
+
+
+## shortRNA & seqpac
+```{r, results='asis', fig.align='center', fig.height=5, fig.width=7, warning=F, message=F}
+rr <- c("miR-1983", "miR-2861", "miR-5099", "miR-5131", "miR-681")
+ComplexHeatmap::Heatmap(
+  matrix = sh_df[rr, ],
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  column_title = "shortRNA",
+  name = "shortRNA",
+  col = viridis::inferno(50)
+) +
+  ComplexHeatmap::Heatmap(
+    matrix = sq_df[rr, ],
+    cluster_rows = FALSE,
+    cluster_columns = FALSE,
+    column_title = "seqpac",
+    name = "seqpac",
+    col = viridis::inferno(50)
+  )
+```
+
+
+
+# test
+```{r}
+o <- readRDS("../../shortRNA/03_tse/align/overlapBAM.rds")
+o <- o[o$transcript_type == "miRNA", ]
+mir <- data.frame(transcript_id = c("miR-1a-3p", "miR-27a-3p", "miR-339-5p", "miR-378a-3p", "miR-3963", "miR-2137", "miR-3962", "miR-3963", "miR-5099", "miR-1983", "miR-2861", "miR-5099", "miR-5131", "miR-681"))
+
+df <- merge(o, mir)
+
+m <- data.frame(readRDS("../../shortRNA/03_tse/fastq/counts.rds"))
+m$seq <- rownames(m)
+
+data <- merge(df, m)
+
+data$transcript_id <- as.character(data$transcript_id)
+
+colnames(data) <- gsub(pattern = "read.", replacement = "", x = colnames(data))
+data$strand <- "*"
+
+# data <- data[, c(
+#   "seq", "transcript_id", "cigar", "chr", "start", "end", "strand", "overlap",
+#   "transcript_type", "transcript.strand", "transcript.length",
+#   "SRR13129036", "SRR13129037", "SRR13129038", "SRR13129039",
+#   "SRR13129040", "SRR13129041", "SRR13129042", "SRR13129043"
+# )]
+
+data$seq <- as.character(data$seq)
+data$transcript_type <- as.character(data$transcript_type)
+
+data_sp <- split(x = data, f = data$transcript_id)
+
+grl <- lapply(data_sp, GRanges)
+
+saveRDS(object = grl, file = "miRNAsToTest.rds")
+
+f <- readRDS("../../shortRNA/00_genome/features.rds")
+fr <- unlist(f)
+me <- f@elementMetadata
+colnames(me) <- c("transcript_id", "transcript_type", "genename", "miRNAcluster")
+fr@elementMetadata <- me
+
+genome(fr) <- "GRCm38"
+
+export(object = fr, con = "features.gtf", format = "gtf")
+
+txdb <- makeTxDbFromGFF("features.gtf", format = "auto", organism = "Mus musculus", )
+
+saveDb(x = txdb, file = "features.sqlite")
+```

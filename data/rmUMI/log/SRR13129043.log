@@ -1,0 +1,79 @@
+This is cutadapt 3.4 with Python 3.8.10
+Command line parameters: -a TGGAATTCTCGGGTGCCAAGG -e 0.05 --minimum-length=18 --max-n=1 --cores=16 ../raw/SRR13129043.fastq.gz
+Processing reads on 16 cores in single-end mode ...
+Finished in 130.69 s (3 µs/read; 20.33 M reads/minute).
+
+=== Summary ===
+
+Total reads processed:              44,292,926
+Reads with adapters:                42,097,168 (95.0%)
+Reads that were too short:              16,854 (0.0%)
+Reads with too many N:                   1,869 (0.0%)
+Reads written (passing filters):    44,274,203 (100.0%)
+
+Total basepairs processed: 2,258,939,226 bp
+Total written (filtered):  1,649,343,585 bp (73.0%)
+
+=== Adapter 1 ===
+
+Sequence: TGGAATTCTCGGGTGCCAAGG; Type: regular 3'; Length: 21; Trimmed: 42097168 times
+
+No. of allowed errors:
+1-19 bp: 0; 20-21 bp: 1
+
+Bases preceding removed adapters:
+  A: 13.7%
+  C: 51.7%
+  G: 19.6%
+  T: 15.0%
+  none/other: 0.0%
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+3	79153	692077.0	0	79153
+4	76011	173019.2	0	76011
+5	102322	43254.8	0	102322
+6	167585	10813.7	0	167585
+7	270417	2703.4	0	270417
+8	395116	675.9	0	395116
+9	628407	169.0	0	628407
+10	986995	42.2	0	986995
+11	1584400	10.6	0	1584400
+12	2827047	2.6	0	2827047
+13	5661481	0.7	0	5661481
+14	9916147	0.2	0	9916147
+15	9459178	0.0	0	9459178
+16	4154790	0.0	0	4154790
+17	1453299	0.0	0	1453299
+18	942120	0.0	0	942120
+19	785545	0.0	0	752481 33064
+20	735478	0.0	1	686172 49306
+21	761685	0.0	1	706427 55258
+22	369310	0.0	1	338774 30536
+23	215610	0.0	1	195375 20235
+24	131477	0.0	1	117371 14106
+25	101183	0.0	1	90154 11029
+26	69757	0.0	1	61846 7911
+27	48435	0.0	1	43122 5313
+28	38514	0.0	1	34446 4068
+29	44332	0.0	1	40218 4114
+30	27439	0.0	1	24976 2463
+31	20836	0.0	1	19180 1656
+32	16465	0.0	1	15058 1407
+33	9780	0.0	1	9031 749
+34	4978	0.0	1	4561 417
+35	1482	0.0	1	1364 118
+36	390	0.0	1	339 51
+37	138	0.0	1	127 11
+38	63	0.0	1	57 6
+39	11	0.0	1	10 1
+40	14	0.0	1	13 1
+41	25	0.0	1	23 2
+42	190	0.0	1	178 12
+43	9249	0.0	1	8517 732
+44	263	0.0	1	228 35
+45	37	0.0	1	35 2
+46	3	0.0	1	2 1
+47	6	0.0	1	5 1
+48	2	0.0	1	2
+50	3	0.0	1	3

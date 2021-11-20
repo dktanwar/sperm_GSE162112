@@ -1,0 +1,34 @@
+---
+title: "oasis2"
+author: "Deepak Tanwar"
+date: "28/09/2021"
+output: html_document
+---
+
+
+```{r}
+readOasis <- function(folder){
+  library(SummarizedExperiment)
+  a <- list.files(folder, pattern="\\.sample_parameters.txt", full.names=TRUE, recursive = T)
+  lf <- list.files(folder, pattern="mirnaCounts", recursive=TRUE, full.names=TRUE)
+  lf <- grep(pattern = "data/counts/species", x = lf, value = T)
+  names(lf) <- gsub("_mirnaCounts\\.txt$", "", basename(lf))
+  names(a) <- names(lf)
+  
+  ld <- lapply(setNames(names(lf), names(lf)), function(x)
+    read.delim(lf[[x]], col.names = c("transcript_id", x), header=FALSE))
+  
+  df <- Reduce(function(x, y) merge(x, y), ld)
+  rownames(df) <- df$transcript_id
+  
+  df <- df[,grep(pattern = "transcript_id", x = colnames(df), invert = T)]
+  
+  se <- SummarizedExperiment( list(counts=df))
+  se
+}
+```
+
+```{r}
+se <- readOasis(folder = "../../oasis2/")
+saveRDS(object = se, file = "oasis.rds")
+```

@@ -1,0 +1,173 @@
+You are running cutadapt 1.7.1 with Python 2.7.6
+Command line parameters: -a TGGAATTCTCGGGTGCCAAGG /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/SRR13129041_cat.fastq
+Maximum error rate: 10.00%
+   No. of adapters: 1
+   Processed reads:      5001369
+   Processed bases:    156293132 bp (156.3 Mbp)
+     Trimmed reads:      1270242 (25.4%)
+     Trimmed bases:     17907391 bp (17.9 Mbp) (11.46% of total)
+   Too short reads:            0 (0.0% of processed reads)
+    Too long reads:            0 (0.0% of processed reads)
+        Total time:     49.75 s
+     Time per read:      0.010 ms
+
+=== Adapter 1 ===
+
+Sequence: TGGAATTCTCGGGTGCCAAGG; Type: regular 3'; Length: 21; Trimmed: 1270242 times.
+
+No. of allowed errors:
+0-9 bp: 0; 10-19 bp: 1; 20-21 bp: 2
+
+Bases preceding removed adapters:
+  A: 13.1%
+  C: 47.5%
+  G: 22.9%
+  T: 16.5%
+  none/other: 0.0%
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+3	76019	78146.4	0	76019
+4	11521	19536.6	0	11521
+5	2161	4884.1	0	2161
+6	361	1221.0	0	361
+7	112	305.3	0	112
+8	1611	76.3	0	1611
+9	3794	19.1	0	928 2866
+10	19431	4.8	1	2410 17021
+11	29882	1.2	1	8 29874
+12	49461	0.3	1	34 49427
+13	129585	0.1	1	1198 128387
+14	270908	0.0	1	205 270703
+15	332966	0.0	1	124 332842
+16	146191	0.0	1	0 146191
+17	72569	0.0	1	1 72568
+18	57380	0.0	1	0 56574 806
+19	37716	0.0	1	0 36595 1121
+20	7017	0.0	2	0 3458 3559
+21	4809	0.0	2	0 0 4809
+22	3155	0.0	2	0 0 3155
+23	2500	0.0	2	0 0 2500
+24	2684	0.0	2	0 0 2684
+25	2337	0.0	2	0 0 2337
+26	1701	0.0	2	0 0 1701
+27	1321	0.0	2	0 0 1321
+28	845	0.0	2	0 0 845
+29	820	0.0	2	0 0 820
+30	507	0.0	2	0 0 507
+31	356	0.0	2	0 0 356
+32	252	0.0	2	0 0 252
+33	163	0.0	2	0 0 163
+34	63	0.0	2	0 0 63
+35	21	0.0	2	0 0 21
+36	4	0.0	2	0 0 4
+41	1	0.0	2	0 0 1
+42	1	0.0	2	0 0 1
+43	17	0.0	2	0 0 17
+
+Started analysis of SRR13129041-trimmed.fastq
+Approx 5% complete for SRR13129041-trimmed.fastq
+Approx 10% complete for SRR13129041-trimmed.fastq
+Approx 15% complete for SRR13129041-trimmed.fastq
+Approx 20% complete for SRR13129041-trimmed.fastq
+Approx 25% complete for SRR13129041-trimmed.fastq
+Approx 30% complete for SRR13129041-trimmed.fastq
+Approx 35% complete for SRR13129041-trimmed.fastq
+Approx 40% complete for SRR13129041-trimmed.fastq
+Approx 45% complete for SRR13129041-trimmed.fastq
+Approx 50% complete for SRR13129041-trimmed.fastq
+Approx 55% complete for SRR13129041-trimmed.fastq
+Approx 60% complete for SRR13129041-trimmed.fastq
+Approx 65% complete for SRR13129041-trimmed.fastq
+Approx 70% complete for SRR13129041-trimmed.fastq
+Approx 75% complete for SRR13129041-trimmed.fastq
+Approx 80% complete for SRR13129041-trimmed.fastq
+Approx 85% complete for SRR13129041-trimmed.fastq
+Approx 90% complete for SRR13129041-trimmed.fastq
+Approx 95% complete for SRR13129041-trimmed.fastq
+Approx 100% complete for SRR13129041-trimmed.fastq
+Started analysis of SRR13129041-nofilt-trimmed.fastq
+Approx 5% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 10% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 15% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 20% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 25% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 30% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 35% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 40% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 45% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 50% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 55% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 60% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 65% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 70% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 75% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 80% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 85% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 90% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 95% complete for SRR13129041-nofilt-trimmed.fastq
+Approx 100% complete for SRR13129041-nofilt-trimmed.fastq
+/tmp/slurmd/job45809/slurm_script: line 510: 20503 Killed                  STAR_2.4.1d --outFileNamePrefix $FULLPATH-genome --genomeDir $PATH_TO_DATABASE/$REFERENCE/star --runThreadN $cores --readFilesIn $INPUT_DIR/$ID-unmapped.fa --outFilterMismatchNoverLmax 0.00 --outFilterMismatchNmax 0 --alignIntronMax 1 --outFilterMatchNmin 15 --outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outSAMtype BAM Unsorted --scoreDelOpen -25 --scoreInsOpen -25 --scoreDelBase -25 --scoreInsBase -25 --alignEndsType EndToEnd --outSAMunmapped Within --outStd BAM_Unsorted > $INPUT_DIR/$ID-genome.bam
+[bam_header_read] EOF marker is absent. The input is probably truncated.
+[main_samview] truncated file.
+Error in file(file, "rt") : cannot open the connection
+Calls: read.table -> file
+In addition: Warning message:
+In file(file, "rt") :
+  cannot open file '/share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/output-mpa.labels_filt.log': No such file or directory
+Execution halted
+
+EXITING because of fatal input ERROR: could not open readFilesIn=/share/de/GSE_61499e7f44c21/SRR13129041-unclassified.txt
+
+Sep 21 10:22:15 ...... FATAL ERROR, exiting
+
+        ==========     _____ _    _ ____  _____  ______          _____  
+        =====         / ____| |  | |  _ \|  __ \|  ____|   /\   |  __ \ 
+          =====      | (___ | |  | | |_) | |__) | |__     /  \  | |  | |
+            ====      \___ \| |  | |  _ <|  _  /|  __|   / /\ \ | |  | |
+              ====    ____) | |__| | |_) | | \ \| |____ / ____ \| |__| |
+        ==========   |_____/ \____/|____/|_|  \_\______/_/    \_\_____/
+	  v1.4.6
+
+//========================== featureCounts setting ===========================\\
+||                                                                            ||
+||             Input files : 1 unknown file                                   ||
+||                           ? /share/de/GSE_61499e7f44c21/SRR13129041-al ... ||
+||                                                                            ||
+||             Output file : /share/de/GSE_61499e7f44c21/GSE_61499e7f44c2 ... ||
+||             Annotations : /home/vsac/database2/all/saf/all.saf (SAF)       ||
+||                                                                            ||
+||                 Threads : 1                                                ||
+||                   Level : meta-feature level                               ||
+||              Paired-end : no                                               ||
+||         Strand specific : no                                               ||
+||      Multimapping reads : not counted                                      ||
+|| Multi-overlapping reads : not counted                                      ||
+||                                                                            ||
+\\===================== http://subread.sourceforge.net/ ======================//
+
+//================================= Running ==================================\\
+||                                                                            ||
+|| Load annotation file /home/vsac/database2/all/saf/all.saf ...              ||
+||    Features : 23571                                                        ||
+||    Meta-features : 23571                                                   ||
+||    Chromosomes : 23571                                                     ||
+||                                                                            ||
+|| Process Unknown file /share/de/GSE_61499e7f44c21/SRR13129041-all.bam...    ||
+||    Single-end reads are included.                                          ||
+|| WARNING file '/share/de/GSE_61499e7f44c21/SRR13129041-all.bam' is empty.   ||
+||    Assign reads to features...                                             ||
+||    Total reads : 0                                                         ||
+||    Successfully assigned reads : 0                                         ||
+||    Running time : 0.00 minutes                                             ||
+||                                                                            ||
+||                         Read assignment finished.                          ||
+||                                                                            ||
+\\===================== http://subread.sourceforge.net/ ======================//
+
+cat: SRR13129041: No such file or directory
+grep: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/SRR13129041-genomeLog.final.out: No such file or directory
+awk: cmd. line:1: fatal: cannot open file `/share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/output-mpa.labels.log' for reading (No such file or directory)
+grep: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/SRR13129041-allLog.final.out: No such file or directory
+cat: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/output-mpa.labels_filt.log: No such file or directory
+Error in /tmp/slurmd/job45809/slurm_script:505 (approximation), [fastqToCountsSmallrna.sh: /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041 / tanward@ethz.ch], execution directory /share/de/GSE_61499e7f44c21/GSE_61499e7f44c21/SRR13129041/QC/trim_nofilt, {grep-stderr:8b5d9a2800aab28fa99cc4b3ec8d3fbf}
